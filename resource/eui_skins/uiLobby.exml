@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="uiLobbySkin" width="1334" height="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="164609a151b" ></w:Config>
+	<e:Group x="0" y="0">
+		<e:Image source="sr-bbot-bg2_png" x="0" y="0"/>
+		<e:Image source="sr-bot-bg_png" y="0" x="0"/>
+	</e:Group>
+	<e:Group x="230.7" y="206.06">
+		<e:Label id="username" text="玩家名字" x="0" y="215.12" anchorOffsetX="0" width="295.21" anchorOffsetY="0" height="105.76" verticalAlign="middle" textAlign="center" size="30" textColor="0x050202"/>
+		<e:Image source="def-use_png" x="82.1" y="84.12"/>
+		<e:Image source="handcon_png" x="28.1" y="0"/>
+	</e:Group>
+	<e:Group id="rank" x="1138.62" y="74.48">
+		<e:Image source="rank-logo_png" x="6.5" y="0"/>
+		<e:Label text="排行榜" x="0" y="63" anchorOffsetX="0" width="120" anchorOffsetY="0" height="50" verticalAlign="middle" textAlign="center" textColor="0x380606"/>
+	</e:Group>
+	<e:Group id="randomMatch" x="658" y="288">
+		<e:Image source="dating-btn_png" x="0" y="0"/>
+		<e:Label text="随机匹配" x="127" y="21" anchorOffsetX="0" width="270" anchorOffsetY="0" height="72" textAlign="center" verticalAlign="middle" size="40"/>
+	</e:Group>
+	<e:Group id="createRoom" x="667" y="446">
+		<e:Image source="dating-btn2_png" x="0" y="0"/>
+		<e:Label text="创建房间" x="32" y="28.06" anchorOffsetX="0" width="200" anchorOffsetY="0" height="62" verticalAlign="middle" textAlign="center" size="36"/>
+	</e:Group>
+	<e:Group id="joinRoom" x="925" y="448">
+		<e:Image source="dating-btn2_png" x="0" y="0"/>
+		<e:Label text="加入房间" x="32" y="28.06" anchorOffsetX="0" width="200" anchorOffsetY="0" height="62" verticalAlign="middle" textAlign="center" size="36"/>
+	</e:Group>
+	<e:Group id="inviteUser" x="831" y="606">
+		<e:Image source="dating-btn3_png" x="0" y="0"/>
+		<e:Label text="邀请好友" x="39" y="6" anchorOffsetX="0" width="120" anchorOffsetY="0" height="56" verticalAlign="middle" textAlign="center" textColor="0x110101" size="30"/>
+	</e:Group>
+	<e:Image id="exit" source="btn-back_png" x="52" y="42"/>
+</e:Skin>

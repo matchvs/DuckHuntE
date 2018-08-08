@@ -1,0 +1,56 @@
+{
+  "engineVersion": "5.2.3",
+  "compilerVersion": "5.2.3",
+  "template": {},
+  "target": {
+    "current": "web"
+  },
+  "eui": {
+    "exmlRoot": [
+      "resource/eui_skins"
+    ],
+    "themes": [
+      "resource/default.thm.json"
+    ],
+    "exmlPublishPolicy": "commonjs"
+  },
+  "modules": [
+    {
+      "name": "egret"
+    },
+    {
+      "name": "eui"
+    },
+    {
+      "name": "assetsmanager"
+    },
+    {
+      "name": "tween"
+    },
+    {
+      "name": "socket"
+    },
+    {
+      "name": "egretia-sdk"
+    },
+    {
+      "name": "experimental"
+    },
+    {
+      "name": "game"
+    },
+    {
+      "name": "promise"
+    },
+    {
+      "name": "matchvs",
+      "path": "../matchvs"
+    }
+  ],
+  "targets": {
+    "android": {
+      "appname": "duckHunt",
+      "packagename": "com.companyname"
+    }
+  }
+}

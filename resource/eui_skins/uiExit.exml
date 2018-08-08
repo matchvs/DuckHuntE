@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="uiExitSkin" width="1344" height="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="164adda9ba0" ></w:Config>
+	<e:Image source="track_sb_png" x="0" y="0" anchorOffsetX="0" width="1346.94" anchorOffsetY="0" height="747.03" alpha="0.5"/>
+	<e:Image source="kuang_png" x="360.5" y="102.01"/>
+	<e:Image id="back" source="close_png" x="908.5" y="212.42"/>
+	<e:Label text="是否退出游戏？" x="515.14" y="375" anchorOffsetX="0" width="316.67" anchorOffsetY="0" height="112.67" textColor="0x000000" verticalAlign="middle" textAlign="center" size="40"/>
+	<e:Image id="leaveGame" source="home-btn5_png" x="543.48" y="517"/>
+	<e:Label text="退 出" x="579" y="522.33" anchorOffsetX="0" width="186" anchorOffsetY="0" height="64.67" verticalAlign="middle" textAlign="center" size="34" touchEnabled="false"/>
+</e:Skin>

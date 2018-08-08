@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="uiCreateRoomSkin" width="1334" height="720" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="16465b26b27" ></w:Config>
+	<e:Image source="home-bg_png" x="-1" scale9Grid="166,38,1002,234" anchorOffsetY="0" height="719.64" alpha="0.5"/>
+	<e:Group x="355.5" y="13.85">
+		<e:Image source="cpm-logo2_png" x="0" y="0"/>
+		<e:Image id="plus" source="icon-plus_png" x="503.5" y="249.5"/>
+		<e:Image id="sub" source="minus_png" x="278.5" y="269.42"/>
+		<e:Image x="387.9" y="247.76" anchorOffsetX="0" anchorOffsetY="0" scale9Grid="106,11,36,37" width="56" source="room-kuang2_1_png"/>
+		<e:Label id="playerNum" text="1" x="403.18" y="261.83" anchorOffsetX="0" width="25.49" anchorOffsetY="0" height="35.67" textColor="0x070707" verticalAlign="middle" textAlign="center" size="34"/>
+		<e:Image source="room-kuang2_png" x="279.5" y="381.42"/>
+		<e:Image id="back" source="close_png" x="551.5" y="112"/>
+		<e:TextInput id="roomName" width="235.15" height="45.76" x="287" y="389.03" anchorOffsetX="0" anchorOffsetY="0" prompt="请输入房间名"/>
+		<e:Image source="close_png" x="548" y="116.39" visible="false"/>
+	</e:Group>
+	<e:Image id="create" source="dating-btn_png" x="481.28" y="574.49" anchorOffsetX="0" width="369.45" anchorOffsetY="0" height="112.48"/>
+	<e:Label text="创 建" x="558" y="588" anchorOffsetX="0" width="216.42" anchorOffsetY="0" height="84.55" verticalAlign="middle" textAlign="center" textColor="0x000000" size="46" touchEnabled="false"/>
+</e:Skin>

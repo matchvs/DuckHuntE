@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="uiLoginSkin" width="1334" height="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="164607a3a08" ></w:Config>
+	<e:Image source="sr-bbot-bg2_png" x="-2" y="9"/>
+	<e:Image source="sr-bot-bg_png" x="0" y="0"/>
+	<e:Image source="logo_png" x="468" y="165"/>
+	<e:Image id="start" source="startGame_png" x="485" y="496.85"/>
+	<e:Image source="friendsRanking_png" x="485" y="526" visible="false"/>
+	<e:Image source="worldRanking_png" x="747" y="526" visible="false"/>
+	<e:Image source="inviteFriends_png" x="634.5" y="665.76" visible="false"/>
+</e:Skin>

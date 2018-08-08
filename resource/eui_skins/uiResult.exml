@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="uiResultSkin" width="1334" height="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="164a8eefa4e" ></w:Config>
+	<e:Group x="0" y="0">
+		<e:Image source="sr-con-bg_png" x="0" y="0"/>
+		<e:Image source="sr-con-bg3_png" x="267" y="165" width="800" height="420"/>
+		<e:Image source="sr-con-light_png" x="383.5" y="2"/>
+	</e:Group>
+	<e:Group id="first" x="600" y="139.36">
+		<e:Image source="def-use_png" x="15" y="10.64" width="124" height="124"/>
+		<e:Image x="-34" y="-29" source="rank-user1_png" anchorOffsetX="0" width="217" anchorOffsetY="0" height="188"/>
+		<e:Group x="6.5" y="166">
+		<e:Label text="玩家：" x="0" y="0" textColor="0x000000" size="24"/>
+		<e:Label id="firstId" text="123456" x="67.5" y="0" textColor="0x000000" size="24" anchorOffsetX="0" width="156"/>
+		</e:Group>
+		<e:Group x="5.5" y="196">
+		<e:Label text="分数：" x="0" y="0" textColor="0x000000" size="24"/>
+		<e:Label id="firstScore" text="1" x="67.5" y="0" textColor="0x000000" size="24" anchorOffsetX="0" width="156"/>
+		</e:Group>
+	</e:Group>
+	<e:Group id="second" x="403.04" y="347">
+		<e:Image source="def-use_png" x="15" y="10.64" width="124" height="124"/>
+		<e:Image source="rank-user3_png" x="0" y="0" width="154" height="158"/>
+		<e:Group x="6.5" y="166">
+			<e:Label text="玩家：" x="0" y="0" textColor="0x000000" size="24"/>
+			<e:Label id="secondId" text="123456" x="67.5" y="0" textColor="0x000000" size="24" anchorOffsetX="0" width="156"/>
+		</e:Group>
+		<e:Group x="5.5" y="196">
+			<e:Label text="分数：" x="0" y="0" textColor="0x000000" size="24"/>
+			<e:Label id="secondScore" text="1" x="67.5" y="0" textColor="0x000000" size="24" anchorOffsetX="0" width="156"/>
+		</e:Group>
+	</e:Group>
+	<e:Group id="third" x="774" y="346.36">
+		<e:Image source="def-use_png" x="15" y="10.64" width="124" height="124"/>
+		<e:Image x="-3.04" y="-9.09" width="167.64" height="167.09" source="rank-user2_png" anchorOffsetX="0" anchorOffsetY="0"/>
+		<e:Group x="6.5" y="166">
+		<e:Label text="玩家：" x="0" y="0" textColor="0x000000" size="24"/>
+		<e:Label id="thirdId" text="123456" x="67.5" y="0" textColor="0x000000" size="24" anchorOffsetX="0" width="156"/>
+		</e:Group>
+		<e:Group x="5.5" y="196">
+		<e:Label text="分数：" x="0" y="0" textColor="0x000000" size="24"/>
+		<e:Label id="thirdScore" text="1" x="67.5" y="0" textColor="0x000000" size="24" anchorOffsetX="0" width="156"/>
+		</e:Group>
+	</e:Group>
+	<e:Group id="back" x="548.5" y="641">
+		<e:Image source="home-btn5_png" x="0" y="0"/>
+		<e:Label text="返回" x="71.5" y="5" anchorOffsetX="0" width="122" anchorOffsetY="0" height="70" verticalAlign="middle" textAlign="center"/>
+	</e:Group>
+</e:Skin>

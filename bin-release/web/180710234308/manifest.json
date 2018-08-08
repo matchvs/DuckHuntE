@@ -1,0 +1,19 @@
+{
+	"initial": [
+		"js/egret.min_3f097048.js",
+		"js/egret.web.min_6ba890da.js",
+		"js/eui.min_3abd2ff.js",
+		"js/assetsmanager.min_ea741b7d.js",
+		"js/tween.min_6c5a88f9.js",
+		"js/socket.min_8b4cb752.js",
+		"js/egretia-sdk.min_5ef2df81.js",
+		"js/experimental.min_31954293.js",
+		"js/game.min_45aa06f6.js",
+		"js/promise.min_83a6a5d.js",
+		"js/matchvs.min_66e9775f.js"
+	],
+	"game": [
+		"js/default.thm_d0ba018e.js",
+		"js/main.min_5c59130a.js"
+	]
+}
