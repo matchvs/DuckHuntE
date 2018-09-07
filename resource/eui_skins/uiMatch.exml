@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="uiMatchSkin" width="1334" height="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*" >
+	<w:Config id="1646583298e" ></w:Config>
+	<e:Image source="sr-con-bg_png" x="1" y="1"/>
+	<e:Image source="cpm-logo_png" x="356.5" y="64.11"/>
+	<e:Image id="back" source="home-btn5_png" x="537" y="647.45"/>
+	<e:Label text="取 消" x="591" y="650" anchorOffsetX="0" width="131.58" anchorOffsetY="0" height="67.88" verticalAlign="middle" textAlign="center" size="34" touchEnabled="false"/>
+	<e:Group id="playerIconLayout" width="590.91" height="212.12" x="372.97" y="327" anchorOffsetX="0" anchorOffsetY="0">
+		<e:layout>
+			<e:HorizontalLayout horizontalAlign="center" verticalAlign="middle" gap="50"/>
+		</e:layout>
+	</e:Group>
+</e:Skin>

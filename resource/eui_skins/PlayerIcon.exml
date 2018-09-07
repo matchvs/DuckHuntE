@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="PlayerIconSkin" width="155" height="155" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="164a36037de" ></w:Config>
+	<e:Group x="0" y="0">
+		<e:Image source="play-user2_png" x="1" y="0" scaleX="0.8" scaleY="0.8"/>
+		<e:Image source="play-user1_png" x="3" y="1" scaleX="0.8" scaleY="0.8"/>
+		<e:Image id="player1" source="def-use_png" x="8.5" y="11.5" visible="false"/>
+	</e:Group>
+</e:Skin>

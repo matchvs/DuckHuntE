@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="uiRoomSkin" width="1334" height="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*" >
+	<w:Config id="16498f06bda" ></w:Config>
+	<e:Image width="1334" height="750" y="15" source="border_png"/>
+	<e:Image source="sr-bbot-bg2_png" x="0"/>
+	<e:Button id="gamestart" label="开始游戏" x="905.64" y="603.42">
+		<e:skinName>
+			<e:Skin states="up,down,disabled">
+			<e:Image width="100%" height="100%" source="home-btn_png"/>
+			<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+			</e:Skin>
+		</e:skinName>
+	</e:Button>
+	<e:Button id="gamestartGray" label="开始游戏" x="905.64" y="603.42" anchorOffsetX="0" width="265.3" anchorOffsetY="0" height="102.64" touchEnabled="false">
+		<e:skinName>
+			<e:Skin states="up,down,disabled">
+			<e:Image width="100%" height="100%" source="bar-user2.2_png"/>
+			<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+			</e:Skin>
+		</e:skinName>
+	</e:Button>
+	<e:Button id="leave" label="离开" x="155.03" y="603.42">
+		<e:skinName>
+		<e:Skin states="up,down,disabled">
+			<e:Image width="100%" height="100%" source="home-btn_png"/>
+			<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+		</e:Skin>
+		</e:skinName>
+	</e:Button>
+	<e:Image source="sr-user-bg_png" x="0" y="184.84"/>
+	<e:Image source="icon-money_png" x="25" y="111"/>
+	<e:Image source="rome-gold_png" x="90.03" y="122"/>
+	<e:Label text="999" x="229.03" y="122"/>
+	<e:Group id="roomUserGroup" width="800" height="300" x="610" y="360" anchorOffsetX="400" anchorOffsetY="150">
+		<e:layout>
+			<e:HorizontalLayout horizontalAlign="center" verticalAlign="middle" gap="195"/>
+		</e:layout>
+	</e:Group>
+</e:Skin>
