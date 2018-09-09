@@ -5,3 +5,4 @@ class BlueBird extends Bird implements  eui.UIComponent {
 		this.moveSpeed = 10;
 	}
 }
+window["BlueBird"] = BlueBird

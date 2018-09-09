@@ -3,7 +3,7 @@
   "compilerVersion": "5.2.3",
   "template": {},
   "target": {
-    "current": "web"
+    "current": "wxgame"
   },
   "eui": {
     "exmlRoot": [
@@ -29,9 +29,6 @@
     },
     {
       "name": "socket"
-    },
-    {
-      "name": "egretia-sdk"
     },
     {
       "name": "experimental"

@@ -6,3 +6,4 @@ class yazi extends Bird implements  eui.UIComponent {
 		this.moveSpeed = 5;
 	}
 }
+window["yazi"] = yazi

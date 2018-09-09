@@ -28,3 +28,4 @@ class CommonBullet extends eui.Component implements  eui.UIComponent {
 		this.y -= this.ySpeed;
 	}
 }
+window["CommonBullet"] = CommonBullet

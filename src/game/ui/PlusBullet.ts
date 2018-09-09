@@ -22,3 +22,4 @@ class PlusBullet extends eui.Component implements  eui.UIComponent {
 		this.y -= this.ySpeed;
 	}
 }
+window["PlusBullet"]  = PlusBullet
