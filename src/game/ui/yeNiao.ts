@@ -5,3 +5,4 @@ class yeNiao extends Bird implements  eui.UIComponent {
 		this.moveSpeed = 7;
 	}
 }
+window["yeNiao"] = yeNiao

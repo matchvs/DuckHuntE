@@ -14,8 +14,8 @@
 	],
 	"game": [
 		"bin-debug/game/GameUser.js",
-		"bin-debug/UIFrame/BaseView.js",
 		"bin-debug/game/ui/Bird.js",
+		"bin-debug/UIFrame/BaseView.js",
 		"bin-debug/game/ui/uiCreateRoom.js",
 		"bin-debug/ThemeAdapter.js",
 		"bin-debug/game/GameData.js",
@@ -31,7 +31,7 @@
 		"bin-debug/game/ui/PlusBullet.js",
 		"bin-debug/game/ui/RoomPrefab.js",
 		"bin-debug/game/ui/RoomUserInfo.js",
-		"bin-debug/util/Utils.js",
+		"bin-debug/LoadingUI.js",
 		"bin-debug/game/ui/uiExit.js",
 		"bin-debug/game/ui/uiGame.js",
 		"bin-debug/game/ui/uiLobby.js",
@@ -48,6 +48,6 @@
 		"bin-debug/UIFrame/UIType.js",
 		"bin-debug/util/MD5.js",
 		"bin-debug/util/Toast.js",
-		"bin-debug/LoadingUI.js"
+		"bin-debug/util/Utils.js"
 	]
 }

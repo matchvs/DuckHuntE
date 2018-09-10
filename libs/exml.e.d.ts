@@ -54,14 +54,6 @@ declare module skins{
 	class ToggleSwitchSkin extends eui.Skin{
 	}
 }
-declare module skins{
-	class VScrollBarSkin extends eui.Skin{
-	}
-}
-declare module skins{
-	class VSliderSkin extends eui.Skin{
-	}
-}
 declare class uiCreateRoomSkin extends eui.Skin{
 }
 declare class uiExitSkin extends eui.Skin{
@@ -79,6 +71,14 @@ declare class uiResultSkin extends eui.Skin{
 declare class uiRoomSkin extends eui.Skin{
 }
 declare class uiRoomListSkin extends eui.Skin{
+}
+declare module skins{
+	class VScrollBarSkin extends eui.Skin{
+	}
+}
+declare module skins{
+	class VSliderSkin extends eui.Skin{
+	}
 }
 declare class yaziSkin extends eui.Skin{
 }

@@ -79,3 +79,4 @@ class RoomUserInfo extends eui.Component implements  eui.UIComponent {
 		mvs.MsEngine.getInstance.kickPlayer(this.userid,"");
 	}
 }
+window["RoomUserInfo"] = RoomUserInfo

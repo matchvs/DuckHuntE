@@ -51,8 +51,6 @@
 		"resource/eui_skins/ScrollerSkin.exml",
 		"resource/eui_skins/TextInputSkin.exml",
 		"resource/eui_skins/ToggleSwitchSkin.exml",
-		"resource/eui_skins/VScrollBarSkin.exml",
-		"resource/eui_skins/VSliderSkin.exml",
 		"resource/eui_skins/uiCreateRoom.exml",
 		"resource/eui_skins/uiExit.exml",
 		"resource/eui_skins/uiGame.exml",
@@ -62,6 +60,8 @@
 		"resource/eui_skins/uiResult.exml",
 		"resource/eui_skins/uiRoom.exml",
 		"resource/eui_skins/uiRoomList.exml",
+		"resource/eui_skins/VScrollBarSkin.exml",
+		"resource/eui_skins/VSliderSkin.exml",
 		"resource/eui_skins/yazi.exml",
 		"resource/eui_skins/yeNiao.exml"
 	],

@@ -37,3 +37,4 @@ class RoomPrefab extends eui.Component implements  eui.UIComponent {
 		mvs.MsEngine.getInstance.joinRoom(this.msRoomAttribute.roomID,infostr);
 	}
 }
+window["RoomPrefab"] = RoomPrefab
