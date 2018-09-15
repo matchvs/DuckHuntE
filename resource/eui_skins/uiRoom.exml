@@ -28,9 +28,9 @@
 		</e:skinName>
 	</e:Button>
 	<e:Image source="sr-user-bg_png" x="0" y="184.84"/>
-	<e:Image source="icon-money_png" x="25" y="111"/>
-	<e:Image source="rome-gold_png" x="90.03" y="122"/>
-	<e:Label text="999" x="229.03" y="122"/>
+	<e:Image source="icon-money_png" x="25" y="111" visible="false"/>
+	<e:Image source="rome-gold_png" x="90.03" y="122" visible="false"/>
+	<e:Label text="999" x="229.03" y="122" visible="false"/>
 	<e:Group id="roomUserGroup" width="800" height="300" x="610" y="360" anchorOffsetX="400" anchorOffsetY="150">
 		<e:layout>
 			<e:HorizontalLayout horizontalAlign="center" verticalAlign="middle" gap="195"/>
