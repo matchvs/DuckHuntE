@@ -187,7 +187,8 @@ class uiRoom extends BaseView {
 		if(!this.parent)
 			return;
 		GameData.isRoomOwner = false;
-		ContextManager.Instance.uiBack();
+		// ContextManager.Instance.uiBack();
+		ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
 	}
 
 	private leaveRoomNotify(ev:egret.Event)
@@ -226,7 +227,8 @@ class uiRoom extends BaseView {
         }
         if (GameData.gameUser.id === rsp.userID) {
             GameData.isRoomOwner = false;
-			ContextManager.Instance.uiBack();
+			//ContextManager.Instance.uiBack();
+			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
         }
 	}
 
@@ -243,7 +245,8 @@ class uiRoom extends BaseView {
         }
         if (GameData.gameUser.id === rsp.userId) {
             GameData.isRoomOwner = false;
-			ContextManager.Instance.uiBack();
+			// ContextManager.Instance.uiBack();
+			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
         }
 	}
 
@@ -253,7 +256,7 @@ class uiRoom extends BaseView {
 			return;
 		let rsp = ev.data;
 		GameData.isRoomOwner = false;
-		ContextManager.Instance.uiBack();
+		//ContextManager.Instance.uiBack();
 	}
 
 	private joinRoomNotify(ev:egret.Event)
