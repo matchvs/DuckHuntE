@@ -30,7 +30,8 @@
 		"RoomUserInfo": "resource/eui_skins/RoomUserInfo.exml",
 		"PlayerIcon": "resource/eui_skins/PlayerIcon.exml",
 		"RoomPrefab": "resource/eui_skins/RoomPrefab.exml",
-		"uiResult": "resource/eui_skins/uiResult.exml"
+		"uiResult": "resource/eui_skins/uiResult.exml",
+		"uiTip": "resource/eui_skins/uiTip.exml"
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
@@ -60,6 +61,7 @@
 		"resource/eui_skins/uiResult.exml",
 		"resource/eui_skins/uiRoom.exml",
 		"resource/eui_skins/uiRoomList.exml",
+		"resource/eui_skins/uiTip.exml",
 		"resource/eui_skins/VScrollBarSkin.exml",
 		"resource/eui_skins/VSliderSkin.exml",
 		"resource/eui_skins/yazi.exml",

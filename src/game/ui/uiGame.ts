@@ -454,6 +454,8 @@ class uiGame extends BaseView {
 	private leaveRoomNotify(ev:egret.Event) {
 		if(!this.parent)
 			return;
+		let tip = new uiTip("对手离开了游戏");
+		this.addChild(tip);
 	}
 	
 	private sendEventNotify(event:egret.Event) {

@@ -25,11 +25,12 @@ class uiLobby extends BaseView {
 	private addToStage()
 	{
 		this.username.text = GameData.gameUser.id.toString();
+		mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp,this);
 	}
 
 	private leaveStage()
 	{
-	
+		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp,this);
 	}
 
 	private exitRoom()
@@ -59,5 +60,20 @@ class uiLobby extends BaseView {
 	private onJoinRoomMatch()
 	{
 		ContextManager.Instance.showUI(UIType.roomList);
+	}
+
+	private onErrorRsp(ev:egret.Event)
+	{
+		let data = ev.data;
+		let errorCode = data.errCode;
+		if(errorCode == 1001)
+		{
+			let tip = new uiTip("网络断开连接");
+			this.addChild(tip);
+			setTimeout(function() {
+				mvs.MsEngine.getInstance.logOut();
+				ContextManager.Instance.backSpecifiedUI(UIType.loginBoard);
+			}, 5000);
+		}
 	}
 }

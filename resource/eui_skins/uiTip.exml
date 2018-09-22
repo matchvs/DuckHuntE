@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="uiTipSkin" width="1334" height="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="16601d74900" ></w:Config>
+	<e:Image source="di_png" x="389.41" y="283"/>
+	<e:Image source="bian_png" x="385.02" y="280.66"/>
+	<e:Image source="bian_png" x="946.55" y="280.03" scaleX="-1"/>
+	<e:Label id="tip" text="Label" x="421.47" y="281.82" anchorOffsetX="0" width="484.61" anchorOffsetY="0" height="46.67" verticalAlign="middle" textAlign="center" textColor="0x000000"/>
+</e:Skin>

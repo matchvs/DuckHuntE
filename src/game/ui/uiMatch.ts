@@ -68,6 +68,8 @@ class uiMatch extends BaseView {
         //离开房间
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_LEAVEROOM_RSP, this.leaveRoomResponse,this);
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_LEAVEROOM_NTFY, this.leaveRoomNotify,this);
+
+		mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp,this);
     }
 
 	private removeMsResponseListen()
@@ -83,6 +85,8 @@ class uiMatch extends BaseView {
         //离开房间
         mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LEAVEROOM_RSP, this.leaveRoomResponse,this);
         mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LEAVEROOM_NTFY, this.leaveRoomNotify,this);
+
+		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp,this);
 	}
 
 	private onBackClick()
@@ -164,6 +168,8 @@ class uiMatch extends BaseView {
 			this.playerIcons.splice(0,1);
 		}
 		ContextManager.Instance.uiBack();
+
+		GameData.isRoomOwner = false;
 	}
 
 	private leaveRoomNotify(ev:egret.Event) {
@@ -190,4 +196,18 @@ class uiMatch extends BaseView {
 		}
 	}
 
+	private onErrorRsp(ev:egret.Event)
+	{
+		let data = ev.data;
+		let errorCode = data.errCode;
+		if(errorCode == 1001)
+		{
+			let tip = new uiTip("网络断开连接");
+			this.addChild(tip);
+			setTimeout(function() {
+				mvs.MsEngine.getInstance.logOut();
+				ContextManager.Instance.backSpecifiedUI(UIType.loginBoard);
+			}, 5000);
+		}
+	}
 }

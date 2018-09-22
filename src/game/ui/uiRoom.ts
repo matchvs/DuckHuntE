@@ -83,6 +83,8 @@ class uiRoom extends BaseView {
 
 		//发送消息
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_SENDEVENT_NTFY, this.sendEventNotify,this);
+
+		mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp,this);
     }
 
 	private removeMsResponseListen()
@@ -104,6 +106,8 @@ class uiRoom extends BaseView {
 
 		//发送消息
         mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_SENDEVENT_NTFY, this.sendEventNotify,this);
+
+		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp,this);
 	}
 
 	private addToStage()
@@ -193,7 +197,6 @@ class uiRoom extends BaseView {
 
 		if (playerCnt === GameData.maxPlayerNum) {
             var result = mvs.MsEngine.getInstance.joinOver("");
-            console.log("发出关闭房间的通知");
             if (result !== 0) {
                 console.log("关闭房间失败，错误码：", result);
             }
@@ -205,7 +208,8 @@ class uiRoom extends BaseView {
 			})
 			mvs.MsEngine.getInstance.sendEvent(value);
         } else {
-			//显示提示框
+			let tip = new uiTip("房间人数不足");
+			this.addChild(tip);
         }
 	}
 
@@ -329,6 +333,22 @@ class uiRoom extends BaseView {
 				GameData.playerUserIds = userIds;
 				ContextManager.Instance.showUI(UIType.gameBoard);
 			}
+		}
+	}
+
+	
+	private onErrorRsp(ev:egret.Event)
+	{
+		let data = ev.data;
+		let errorCode = data.errCode;
+		if(errorCode == 1001)
+		{
+			let tip = new uiTip("网络断开连接");
+			this.addChild(tip);
+			setTimeout(function() {
+				mvs.MsEngine.getInstance.logOut();
+				ContextManager.Instance.backSpecifiedUI(UIType.loginBoard);
+			}, 5000);
 		}
 	}
 }
