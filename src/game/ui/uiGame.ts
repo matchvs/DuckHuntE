@@ -219,6 +219,12 @@ class uiGame extends BaseView {
 
 		this.myScore = 0;
 		this.myScoreLabel.text = this.myScore + "";
+
+		this.rotationController.value = 5;
+		this.onSlideChange();
+
+		this.leftPlayer.rotation = 0;
+		this.rightPlayer.rotation = 0;
 	}
 
 	private timeOnEnterFrame = 0;
