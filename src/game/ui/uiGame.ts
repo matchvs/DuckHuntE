@@ -58,7 +58,6 @@ class uiGame extends BaseView {
 	protected childrenCreated():void
 	{
 		super.childrenCreated();
-		this.init();
 	}
 	
 	private bgChannel:egret.SoundChannel;
@@ -148,8 +147,7 @@ class uiGame extends BaseView {
 		let bg:egret.Sound = RES.getRes("duckBg_mp3");
   		this.bgChannel = bg.play();
 
-		this.addMsResponseListen();
-		  
+		this.addMsResponseListen();		
  	}
 
 	private addMsResponseListen(){
@@ -169,6 +167,12 @@ class uiGame extends BaseView {
 		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LEAVEROOM_RSP,this.leaveRoomResponse,this);
 	}
 
+	public onEnter(context:any):void
+	{
+		this.init();
+	}
+
+	private createBirdInterval;
 	private init()
 	{
 		this.bulletImg.mask = this.bulletMask;
@@ -178,7 +182,11 @@ class uiGame extends BaseView {
 		this.back.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onBackClick,this);
 
 		let self = this;
-		setInterval(function() {
+		if(this.createBirdInterval != null)
+		{
+			clearInterval(this.createBirdInterval);
+		}
+		this.createBirdInterval = setInterval(function() {
 			if(!self.gameStart)
 				return;
 			let birdType = Math.floor(Math.random()*3);
@@ -208,6 +216,9 @@ class uiGame extends BaseView {
 
 		this.time = 60;
 		this.updateTime();
+
+		this.myScore = 0;
+		this.myScoreLabel.text = this.myScore + "";
 	}
 
 	private timeOnEnterFrame = 0;
