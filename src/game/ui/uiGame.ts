@@ -191,7 +191,7 @@ class uiGame extends BaseView {
 					birdComponent.y = 200;
 				break;
 			}
-			birdComponent.modifyScore = function(){self.modifyMyScore()}
+			birdComponent.modifyScore = function(value){self.modifyMyScore(value)}
 			self.birdList.push(birdComponent);
 			self.addChild(birdComponent);
 		}, 5000);
@@ -551,11 +551,11 @@ class uiGame extends BaseView {
 		this.bulletNum.text = this.smallBulletNum.toString();
 	}
 
-	private modifyMyScore()
+	private modifyMyScore(score)
 	{
 		let userids = [];
 		userids = GameData.playerUserIds;
-		this.myScore ++;
+		this.myScore += score;
 		this.myScoreLabel.text = this.myScore.toString();
 
 		let self = this;
