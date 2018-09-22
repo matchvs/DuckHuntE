@@ -53,3 +53,4 @@ class Bird extends eui.Component {
 		this.die.play();
 	}
 }
+window["Bird"] = Bird;

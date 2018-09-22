@@ -147,6 +147,9 @@ class uiGame extends BaseView {
 
 		let bg:egret.Sound = RES.getRes("duckBg_mp3");
   		this.bgChannel = bg.play();
+
+		this.addMsResponseListen();
+		  
  	}
 
 	private addMsResponseListen(){
@@ -157,6 +160,15 @@ class uiGame extends BaseView {
 		mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_LEAVEROOM_RSP,this.leaveRoomResponse,this);
     }
 
+	private removeResponseListen()
+	{
+		//发送消息
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_SENDEVENT_NTFY, this.sendEventNotify,this);
+        //离开房间
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LEAVEROOM_NTFY, this.leaveRoomNotify,this);
+		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LEAVEROOM_RSP,this.leaveRoomResponse,this);
+	}
+
 	private init()
 	{
 		this.bulletImg.mask = this.bulletMask;
@@ -164,8 +176,6 @@ class uiGame extends BaseView {
 		this.commonGun.addEventListener(egret.TouchEvent.TOUCH_TAP,this.commonGunClick,this);
 		this.plusGun.addEventListener(egret.TouchEvent.TOUCH_TAP,this.plusGunClick,this);
 		this.back.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onBackClick,this);
-
-		this.addMsResponseListen();
 
 		let self = this;
 		setInterval(function() {

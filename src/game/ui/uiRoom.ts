@@ -63,7 +63,6 @@ class uiRoom extends BaseView {
 	{
 		this.gamestart.addEventListener(egret.TouchEvent.TOUCH_TAP,this.gamestartClick,this);
 		this.leave.addEventListener(egret.TouchEvent.TOUCH_TAP,this.leaveRoom,this);
-		this.addMsResponseListen();
 	}
 
 	 private addMsResponseListen(){
@@ -86,6 +85,27 @@ class uiRoom extends BaseView {
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_SENDEVENT_NTFY, this.sendEventNotify,this);
     }
 
+	private removeMsResponseListen()
+	{
+			 //加入房间
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINROOM_RSP, this.joinRoomResponse,this);
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINROOM_NTFY, this.joinRoomNotify,this);
+
+        //离开房间
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LEAVEROOM_RSP, this.leaveRoomResponse,this);
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LEAVEROOM_NTFY, this.leaveRoomNotify,this);
+
+        //踢人
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_KICKPLAYER_RSP, this.kickPlayerResponse,this);
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_KICKPLAYER_NTFY, this.kickPlayerNotify,this);
+
+		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINOVER_RSP, this.joinOverResponse,this);
+		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINOVER_NTFY, this.joinOverNotify,this);
+
+		//发送消息
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_SENDEVENT_NTFY, this.sendEventNotify,this);
+	}
+
 	private addToStage()
 	{
 		while(this.roomUserGroup.numChildren > 0)
@@ -99,6 +119,13 @@ class uiRoom extends BaseView {
 			this.players.push(temp);
 			this.roomUserGroup.addChild(temp);
 		}
+
+		this.addMsResponseListen();		
+	}
+
+	private removeFromStage()
+	{
+		this.removeFromStage();
 	}
 
 	private joinRoomInit(roomUserInfoList, roomInfo)

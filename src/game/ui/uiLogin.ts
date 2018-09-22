@@ -30,7 +30,7 @@ class uiLogin extends BaseView {
 
 	private leaveToStage()
 	{
-		this.release();
+		this.removeMsResponseListen();
 	}
 
 	private addMsResponseListen()
@@ -39,7 +39,7 @@ class uiLogin extends BaseView {
 		mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_LOGIN_RSP,this.loginResponse,this);
 	}
 
-	private release()
+	private removeMsResponseListen()
 	{
 		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_REGISTERUSER_RSP,this.registResponse,this);
 		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LOGIN_RSP,this.loginResponse,this);
