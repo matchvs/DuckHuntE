@@ -35,6 +35,8 @@ class uiRoomList extends BaseView {
 		 mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_JOINROOM_RSP,this.joinRoomResponse,this);
 		 mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_GETROOMLIST_RSP,this.getRoomListExResponse,this);
 		 mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp,this);
+
+		 this.roomIDInput.text = "";
 	}
 
 	private removeFromStage()
