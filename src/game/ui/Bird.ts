@@ -3,6 +3,7 @@ class Bird extends eui.Component {
 	public die:egret.tween.TweenGroup;
 	public moveSpeed = 6;
 	public health = 5;
+	public score;
 	public modifyScore:Function;
 	private isDied = false;
 
@@ -40,7 +41,7 @@ class Bird extends eui.Component {
 		this.health -= value;
 		if(this.health <= 0)
 		{
-			if(this.modifyScore != null) this.modifyScore();
+			if(this.modifyScore != null) this.modifyScore(this.score);
 			this.playDie();
 			this.isDied = true;
 		}
@@ -52,3 +53,4 @@ class Bird extends eui.Component {
 		this.die.play();
 	}
 }
+window["Bird"] = Bird;

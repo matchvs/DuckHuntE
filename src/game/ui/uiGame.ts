@@ -58,7 +58,6 @@ class uiGame extends BaseView {
 	protected childrenCreated():void
 	{
 		super.childrenCreated();
-		this.init();
 	}
 	
 	private bgChannel:egret.SoundChannel;
@@ -147,6 +146,8 @@ class uiGame extends BaseView {
 
 		let bg:egret.Sound = RES.getRes("duckBg_mp3");
   		this.bgChannel = bg.play();
+
+		this.addMsResponseListen();		
  	}
 
 	private addMsResponseListen(){
@@ -157,6 +158,21 @@ class uiGame extends BaseView {
 		mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_LEAVEROOM_RSP,this.leaveRoomResponse,this);
     }
 
+	private removeResponseListen()
+	{
+		//发送消息
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_SENDEVENT_NTFY, this.sendEventNotify,this);
+        //离开房间
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LEAVEROOM_NTFY, this.leaveRoomNotify,this);
+		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LEAVEROOM_RSP,this.leaveRoomResponse,this);
+	}
+
+	public onEnter(context:any):void
+	{
+		this.init();
+	}
+
+	private createBirdInterval;
 	private init()
 	{
 		this.bulletImg.mask = this.bulletMask;
@@ -165,10 +181,12 @@ class uiGame extends BaseView {
 		this.plusGun.addEventListener(egret.TouchEvent.TOUCH_TAP,this.plusGunClick,this);
 		this.back.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onBackClick,this);
 
-		this.addMsResponseListen();
-
 		let self = this;
-		setInterval(function() {
+		if(this.createBirdInterval != null)
+		{
+			clearInterval(this.createBirdInterval);
+		}
+		this.createBirdInterval = setInterval(function() {
 			if(!self.gameStart)
 				return;
 			let birdType = Math.floor(Math.random()*3);
@@ -191,13 +209,22 @@ class uiGame extends BaseView {
 					birdComponent.y = 200;
 				break;
 			}
-			birdComponent.modifyScore = function(){self.modifyMyScore()}
+			birdComponent.modifyScore = function(value){self.modifyMyScore(value)}
 			self.birdList.push(birdComponent);
 			self.addChild(birdComponent);
 		}, 5000);
 
 		this.time = 60;
 		this.updateTime();
+
+		this.myScore = 0;
+		this.myScoreLabel.text = this.myScore + "";
+
+		this.rotationController.value = 5;
+		this.onSlideChange();
+
+		this.leftPlayer.rotation = 0;
+		this.rightPlayer.rotation = 0;
 	}
 
 	private timeOnEnterFrame = 0;
@@ -427,6 +454,8 @@ class uiGame extends BaseView {
 	private leaveRoomNotify(ev:egret.Event) {
 		if(!this.parent)
 			return;
+		let tip = new uiTip("对手离开了游戏");
+		this.addChild(tip);
 	}
 	
 	private sendEventNotify(event:egret.Event) {
@@ -551,11 +580,11 @@ class uiGame extends BaseView {
 		this.bulletNum.text = this.smallBulletNum.toString();
 	}
 
-	private modifyMyScore()
+	private modifyMyScore(score)
 	{
 		let userids = [];
 		userids = GameData.playerUserIds;
-		this.myScore ++;
+		this.myScore += score;
 		this.myScoreLabel.text = this.myScore.toString();
 
 		let self = this;

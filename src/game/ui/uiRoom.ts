@@ -63,7 +63,6 @@ class uiRoom extends BaseView {
 	{
 		this.gamestart.addEventListener(egret.TouchEvent.TOUCH_TAP,this.gamestartClick,this);
 		this.leave.addEventListener(egret.TouchEvent.TOUCH_TAP,this.leaveRoom,this);
-		this.addMsResponseListen();
 	}
 
 	 private addMsResponseListen(){
@@ -84,7 +83,32 @@ class uiRoom extends BaseView {
 
 		//发送消息
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_SENDEVENT_NTFY, this.sendEventNotify,this);
+
+		mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp,this);
     }
+
+	private removeMsResponseListen()
+	{
+			 //加入房间
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINROOM_RSP, this.joinRoomResponse,this);
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINROOM_NTFY, this.joinRoomNotify,this);
+
+        //离开房间
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LEAVEROOM_RSP, this.leaveRoomResponse,this);
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LEAVEROOM_NTFY, this.leaveRoomNotify,this);
+
+        //踢人
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_KICKPLAYER_RSP, this.kickPlayerResponse,this);
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_KICKPLAYER_NTFY, this.kickPlayerNotify,this);
+
+		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINOVER_RSP, this.joinOverResponse,this);
+		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINOVER_NTFY, this.joinOverNotify,this);
+
+		//发送消息
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_SENDEVENT_NTFY, this.sendEventNotify,this);
+
+		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp,this);
+	}
 
 	private addToStage()
 	{
@@ -99,6 +123,13 @@ class uiRoom extends BaseView {
 			this.players.push(temp);
 			this.roomUserGroup.addChild(temp);
 		}
+
+		this.addMsResponseListen();		
+	}
+
+	private removeFromStage()
+	{
+		this.removeFromStage();
 	}
 
 	private joinRoomInit(roomUserInfoList, roomInfo)
@@ -166,7 +197,6 @@ class uiRoom extends BaseView {
 
 		if (playerCnt === GameData.maxPlayerNum) {
             var result = mvs.MsEngine.getInstance.joinOver("");
-            console.log("发出关闭房间的通知");
             if (result !== 0) {
                 console.log("关闭房间失败，错误码：", result);
             }
@@ -178,7 +208,8 @@ class uiRoom extends BaseView {
 			})
 			mvs.MsEngine.getInstance.sendEvent(value);
         } else {
-			//显示提示框
+			let tip = new uiTip("房间人数不足");
+			this.addChild(tip);
         }
 	}
 
@@ -187,7 +218,8 @@ class uiRoom extends BaseView {
 		if(!this.parent)
 			return;
 		GameData.isRoomOwner = false;
-		ContextManager.Instance.uiBack();
+		// ContextManager.Instance.uiBack();
+		ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
 	}
 
 	private leaveRoomNotify(ev:egret.Event)
@@ -226,7 +258,8 @@ class uiRoom extends BaseView {
         }
         if (GameData.gameUser.id === rsp.userID) {
             GameData.isRoomOwner = false;
-			ContextManager.Instance.uiBack();
+			//ContextManager.Instance.uiBack();
+			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
         }
 	}
 
@@ -243,7 +276,8 @@ class uiRoom extends BaseView {
         }
         if (GameData.gameUser.id === rsp.userId) {
             GameData.isRoomOwner = false;
-			ContextManager.Instance.uiBack();
+			// ContextManager.Instance.uiBack();
+			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
         }
 	}
 
@@ -253,7 +287,7 @@ class uiRoom extends BaseView {
 			return;
 		let rsp = ev.data;
 		GameData.isRoomOwner = false;
-		ContextManager.Instance.uiBack();
+		//ContextManager.Instance.uiBack();
 	}
 
 	private joinRoomNotify(ev:egret.Event)
@@ -299,6 +333,22 @@ class uiRoom extends BaseView {
 				GameData.playerUserIds = userIds;
 				ContextManager.Instance.showUI(UIType.gameBoard);
 			}
+		}
+	}
+
+	
+	private onErrorRsp(ev:egret.Event)
+	{
+		let data = ev.data;
+		let errorCode = data.errCode;
+		if(errorCode == 1001)
+		{
+			let tip = new uiTip("网络断开连接");
+			this.addChild(tip);
+			setTimeout(function() {
+				mvs.MsEngine.getInstance.logOut();
+				ContextManager.Instance.backSpecifiedUI(UIType.loginBoard);
+			}, 5000);
 		}
 	}
 }

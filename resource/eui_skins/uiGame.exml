@@ -195,7 +195,7 @@
 	</w:Declarations>
 	<w:Config id="164658546ab" ></w:Config>
 	<e:Image source="beijing_png" x="-2" anchorOffsetX="0" width="1320"/>
-	<e:Image source="dimian_png" x="-2" y="494"/>
+	<e:Image source="dimian_png" x="-1" y="493"/>
 	<e:Image source="shuiyin_png" x="0" y="699"/>
 	<e:Group x="525.74" y="36.09">
 		<e:Image source="duckClock_png" x="0" y="0"/>
@@ -233,17 +233,17 @@
 		<e:Group id="playerGun" x="223.47" y="748" rotation="0" anchorOffsetX="25.5" anchorOffsetY="678">
 			<e:Image source="mygun_png" x="0" y="435"/>
 			<e:Image source="shexian_png" x="23.5" y="-242.66"/>
-			<e:Image id="playerBulletPos" x="9" y="337.5" source="dazidan_png" alpha="0.1"/>
+			<e:Image id="playerBulletPos" x="9" y="337.5" source="dazidan_png" alpha="0.01"/>
 			<e:Image id="playerCommonBulletPos" x="15.17" y="369.5" alpha="0.01" source="bullet_png"/>
 		</e:Group>
-		<e:Group id="leftPlayer" x="30.5" width="51" height="242" y="507">
+		<e:Group id="leftPlayer" x="30.5" width="51" height="242" y="507" rotation="0">
 			<e:Image source="leftgun_png" x="25.5" y="242" anchorOffsetX="25.5" anchorOffsetY="242" rotation="0"/>
-			<e:Image id="leftPlayerBulletPos" x="8.2" y="-98.89" source="dazidan_png" alpha="0.1" scaleX="1" scaleY="1"/>
+			<e:Image id="leftPlayerBulletPos" x="8.2" y="-98.89" source="dazidan_png" alpha="0.01" scaleX="1" scaleY="1"/>
 			<e:Image id="leftplayerCommonBulletPos" x="13.63" y="-59.09" alpha="0.01" source="bullet_png"/>
 		</e:Group>
 		<e:Group id="rightPlayer" x="410.44" y="749">
 			<e:Image source="rightgun_png" x="0" y="0" anchorOffsetX="25.5" anchorOffsetY="239" rotation="0"/>
-			<e:Image id="rightPlayerBulletPos" x="-15.12" y="-341.91" source="dazidan_png" alpha="0.1" scaleX="1" scaleY="1"/>
+			<e:Image id="rightPlayerBulletPos" x="-15.12" y="-341.91" source="dazidan_png" alpha="0.01" scaleX="1" scaleY="1"/>
 			<e:Image id="rightplayerCommonBulletPos" x="-9.69" y="-302.11" alpha="0.01" source="bullet_png"/>
 		</e:Group>
 	</e:Group>
