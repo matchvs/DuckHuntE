@@ -47,12 +47,12 @@ class uiResult extends BaseView{
 
 		let platform: any = window.platform;
 		//主域向子域发送自定义消息
-		platform.openDataContext.postMessage({
-			isDisplay: true,
-			text: 'hello',
-			year: (new Date()).getFullYear(),
-			command: "setUserCloudStorage"
-		});
+		// platform.openDataContext.postMessage({
+		// 	isDisplay: true,
+		// 	text: 'hello',
+		// 	year: (new Date()).getFullYear(),
+		// 	command: "setUserCloudStorage"
+		// });
 
 		let dic = context;
 		if(dic.length >= 1)
