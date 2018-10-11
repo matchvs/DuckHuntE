@@ -60,9 +60,9 @@ class uiLobby extends BaseView {
 
 		let platform: any = window.platform;
 		 //加载资源
-		 platform.openDataContext.postMessage({
-            command:'loadRes'
-        });
+		//  platform.openDataContext.postMessage({
+        //     command:'loadRes'
+        // });
 	}
 
 	private onCreateRoomClick()

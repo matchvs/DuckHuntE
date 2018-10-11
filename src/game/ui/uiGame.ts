@@ -47,7 +47,7 @@ class uiGame extends BaseView {
 	public constructor() {
 		super();
 		this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addToStage,this);
-		this.addEventListener(egret.TimerEvent.ENTER_FRAME,this.update,this);
+		this.addEventListener(egret.Event.REMOVED_FROM_STAGE,this.removeFromStage,this);
 	}
 
 	protected partAdded(partName:string,instance:any):void
@@ -147,8 +147,15 @@ class uiGame extends BaseView {
 		let bg:egret.Sound = RES.getRes("duckBg_mp3");
   		this.bgChannel = bg.play();
 
-		this.addMsResponseListen();		
+		this.addMsResponseListen();	
+		this.addEventListener(egret.TimerEvent.ENTER_FRAME,this.update,this);	
  	}
+
+	private removeFromStage()
+	{
+		this.removeResponseListen();
+		this.removeEventListener(egret.TimerEvent.ENTER_FRAME,this.update,this);	
+	}
 
 	private addMsResponseListen(){
         //发送消息
