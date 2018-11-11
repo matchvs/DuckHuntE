@@ -28,6 +28,7 @@ class uiCreateRoom extends BaseView{
 	{
 		this.num = 1;
 		this.playerNum.text = this.num.toString();
+		this.roomName.text = "";
 		this.sub.visible =false;
 		this.plus.visible = true;
 		this.plus.touchEnabled = true;
