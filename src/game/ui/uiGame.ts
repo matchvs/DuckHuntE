@@ -111,7 +111,7 @@ class uiGame extends BaseView {
 			return a-b;
 		});
 		this.positionDic = {};
-		let index = GameData.playerUserIds.indexOf(GameData.gameUser.id);		
+		let index = GameData.playerUserIds.indexOf(GameData.gameUser.id);	
 		if(index == 0)
 		{
 			this.positionDic[GameData.gameUser.id] = "middle"
@@ -120,8 +120,10 @@ class uiGame extends BaseView {
 				this.positionDic[GameData.playerUserIds[1]] = "left";
 			}else if(GameData.maxPlayerNum == 3)
 			{
-				this.positionDic[GameData.playerUserIds[1]] = "left";
-				this.positionDic[GameData.playerUserIds[2]] = "right";
+				let leftId = GameData.playerUserIds[1];
+				this.positionDic[leftId] = "left";
+				let rightId = GameData.playerUserIds[2];
+				this.positionDic[rightId] = "right";
 			}
 		}else if(index == 1)
 		{
@@ -129,7 +131,7 @@ class uiGame extends BaseView {
 			this.positionDic[GameData.gameUser.id] = "middle";
 			if(GameData.maxPlayerNum == 3)
 			{
-				this.positionDic[GameData.playerUserIds[1]] = "right";
+				this.positionDic[GameData.playerUserIds[2]] = "right";
 			}
 		}else if(index==2)
 		{
@@ -481,10 +483,12 @@ class uiGame extends BaseView {
 						{
 							this.leftScore = score;
 							this.leftScoreLabel.text = score;
+							console.log("left分数: " + score);
 						}else if(pos == "right")
 						{
 							this.rightScore = score;
 							this.rightScoreLabel.text = score;
+							console.log("right分数:  " + score)
 						}
 				}
 			}else if(sdnotify.cpProto.indexOf("updatePositon") >= 0)

@@ -126,7 +126,6 @@ class uiMatch extends BaseView {
 			this.playerIcons[i].setData(this.gameUserList[i]);
 		}
 
-		GameData.playerUserIds = this.gameUserList;
 		if(this.gameUserList.length >= GameData.maxPlayerNum)
 		{
 			mvs.MsEngine.getInstance.joinOver("");
@@ -137,8 +136,7 @@ class uiMatch extends BaseView {
 		if(!this.parent)
 			return;
 		let data = ev.data;
-		let roomUserInfo = data.userProfile;
-		this.gameUserList.push(roomUserInfo.userId);
+		this.gameUserList.push(data.userId);
 		for(let i=0;i<this.gameUserList.length;i++)
 		{
 			this.playerIcons[i].setData(this.gameUserList[i]);
@@ -148,6 +146,10 @@ class uiMatch extends BaseView {
 	private joinOverNotify(ev:egret.Event) {
 		if(!this.parent)
 			return;
+		this.gameUserList.sort(function(a,b){
+			return a-b;
+		})
+		GameData.playerUserIds = this.gameUserList;
 		//进入游戏界面
 		ContextManager.Instance.showUI(UIType.gameBoard);
 	}
@@ -155,6 +157,10 @@ class uiMatch extends BaseView {
 	private joinOverResponse(ev:egret.Event) {
 		if(!this.parent)
 			return;
+		this.gameUserList.sort(function(a,b){
+			return a-b;
+		})
+		GameData.playerUserIds = this.gameUserList;
 		//进入游戏界面
 		ContextManager.Instance.showUI(UIType.gameBoard);
 	}
