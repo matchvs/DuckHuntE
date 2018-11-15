@@ -100,11 +100,12 @@ class uiResult extends BaseView{
 
 	private onBackClick()
 	{
+		GameData.isRoomOwner = false;
 		mvs.MsEngine.getInstance.leaveRoom("")
 		ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
 	}
 
-		private onErrorRsp(ev:egret.Event)
+	private onErrorRsp(ev:egret.Event)
 	{
 		let data = ev.data;
 		let errorCode = data.errCode;

@@ -85,6 +85,7 @@ class uiRoom extends BaseView {
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_SENDEVENT_NTFY, this.sendEventNotify,this);
 
 		mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp,this);
+		mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_NETWORKSTATE_NTFY,this.networkStateNotify,this);
     }
 
 	private removeMsResponseListen()
@@ -108,6 +109,7 @@ class uiRoom extends BaseView {
         mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_SENDEVENT_NTFY, this.sendEventNotify,this);
 
 		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp,this);
+		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_NETWORKSTATE_NTFY,this.networkStateNotify,this);
 	}
 
 	private addToStage()
@@ -250,6 +252,7 @@ class uiRoom extends BaseView {
 		if(!this.parent)
 			return;
 		let rsp = ev.data;
+		let owner = rsp.owner;
 		for (var j = 0; j < this.players.length; j++) {
             if (this.players[j].userid === rsp.userID) {
                 this.players[j].init();
@@ -261,6 +264,19 @@ class uiRoom extends BaseView {
 			//ContextManager.Instance.uiBack();
 			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
         }
+
+		this.ownerid = owner;
+		if(owner == GameData.gameUser.id)
+		{
+			GameData.isRoomOwner = true;
+		}
+
+		for (var i = 0; i < this.players.length; i++) {
+			if (this.players[i].userid != 0) {
+				this.players[i].setData(this.players[i].userid, this.ownerid,this.players[i].userProfile);
+			}
+		}
+      	this.refreshStartBtn();
 	}
 
 	private kickPlayerNotify(ev:egret.Event)
@@ -268,17 +284,31 @@ class uiRoom extends BaseView {
 		if(!this.parent)
 			return;
 		let rsp = ev.data;
+		let userID = rsp.userID;
+		let owner = rsp.owner;
 		for (var j = 0; j < this.players.length; j++) {
             if (this.players[j].userid === rsp.userId) {
                 this.players[j].init();
                 break;
             }
         }
-        if (GameData.gameUser.id === rsp.userId) {
+        if (GameData.gameUser.id == rsp.userId) {
             GameData.isRoomOwner = false;
 			// ContextManager.Instance.uiBack();
 			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
         }
+
+		if(owner == GameData.gameUser.id)
+		{
+			GameData.isRoomOwner = true;
+		}
+
+		for (var i = 0; i < this.players.length; i++) {
+			if (this.players[i].userid != 0) {
+				this.players[i].setData(this.players[i].userid, this.ownerid,this.players[i].userProfile);
+			}
+		}
+      	this.refreshStartBtn();
 	}
 
 	private joinRoomResponse(ev:egret.Event)
@@ -349,6 +379,24 @@ class uiRoom extends BaseView {
 				mvs.MsEngine.getInstance.logOut();
 				ContextManager.Instance.backSpecifiedUI(UIType.loginBoard);
 			}, 5000);
+		}
+	}
+
+	private networkStateNotify(ev:egret.Event)
+	{
+		let data = ev.data;
+		let state = data.state;
+		let userID = data.userID;
+		let owner = data.owner;
+		if(state == 1)
+		{
+			let tip = new uiTip("玩家"+userID+"网络断开连接");
+			this.addChild(tip);
+
+			//手动踢出房间
+			mvs.MsEngine.getInstance.kickPlayer(userID,"");
+		}else if(state == 3)
+		{
 		}
 	}
 }
