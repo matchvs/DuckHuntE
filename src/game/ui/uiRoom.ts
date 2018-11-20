@@ -259,7 +259,7 @@ class uiRoom extends BaseView {
                 break;
             }
         }
-        if (GameData.gameUser.id === rsp.userID) {
+        if (GameData.gameUser.id == rsp.userID) {
             GameData.isRoomOwner = false;
 			//ContextManager.Instance.uiBack();
 			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
@@ -284,15 +284,15 @@ class uiRoom extends BaseView {
 		if(!this.parent)
 			return;
 		let rsp = ev.data;
-		let userID = rsp.userID;
+	//	let userID = rsp.userID;
 		let owner = rsp.owner;
 		for (var j = 0; j < this.players.length; j++) {
-            if (this.players[j].userid === rsp.userId) {
+            if (this.players[j].userid === rsp.userID) {
                 this.players[j].init();
                 break;
             }
         }
-        if (GameData.gameUser.id == rsp.userId) {
+        if (GameData.gameUser.id == rsp.userID) {
             GameData.isRoomOwner = false;
 			// ContextManager.Instance.uiBack();
 			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
