@@ -287,12 +287,12 @@ class uiRoom extends BaseView {
 	//	let userID = rsp.userID;
 		let owner = rsp.owner;
 		for (var j = 0; j < this.players.length; j++) {
-            if (this.players[j].userid === rsp.userID) {
+            if (this.players[j].userid == rsp.userId) {
                 this.players[j].init();
                 break;
             }
         }
-        if (GameData.gameUser.id == rsp.userID) {
+        if (GameData.gameUser.id == rsp.userId) {
             GameData.isRoomOwner = false;
 			// ContextManager.Instance.uiBack();
 			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
