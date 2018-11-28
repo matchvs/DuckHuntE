@@ -2,10 +2,11 @@
 <e:Skin class="RoomUserInfoSkin" width="162" height="219.33" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
 	<w:Config id="16498fff2ca" ></w:Config>
 	<e:Group anchorOffsetX="68.5" anchorOffsetY="93" horizontalCenter="0.5" verticalCenter="-1.6650000000000063">
-		<e:Group id="common" x="4.02" y="3.35">
-			<e:Image source="def-user-squ_png" x="0" y="0"/>
+		<e:Group id="common" x="5.02" y="3.35">
+			<e:Image id="playerIcon" source="def-user-squ_png" x="0" y="0" width="125" height="125" anchorOffsetX="0" anchorOffsetY="0"/>
+			<e:Image id="playerMask" x="1" y="2" width="125" height="125" anchorOffsetX="0" anchorOffsetY="0" source="def-user-squ_png"/>
 			<e:Image source="promptBox_png" x="0" y="100" anchorOffsetX="0" width="125" anchorOffsetY="0" height="25"/>
-			<e:Label id="username" text="226300" x="42.17" y="103.17" anchorOffsetY="0" height="21.33" size="15" verticalAlign="middle"/>
+			<e:Label id="username" text="226300" x="0.97" y="103.17" anchorOffsetY="0" height="21.33" size="15" verticalAlign="middle" anchorOffsetX="0" width="121.6" textAlign="center"/>
 		</e:Group>
 		<e:Group id="default" x="0" y="0" visible="false">
 			<e:Image width="124" height="123.2" x="6.61" y="5.3" anchorOffsetX="0" anchorOffsetY="0" source="promptBox_png" alpha="0.6"/>

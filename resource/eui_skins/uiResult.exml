@@ -7,7 +7,7 @@
 		<e:Image source="sr-con-light_png" x="383.5" y="2"/>
 	</e:Group>
 	<e:Group id="first" x="600" y="139.36">
-		<e:Image source="def-use_png" x="15" y="10.64" width="124" height="124"/>
+		<e:Image id="firstAvatar" source="def-use_png" x="15" y="10.64" width="124" height="124" anchorOffsetX="0" anchorOffsetY="0"/>
 		<e:Image x="-34" y="-29" source="rank-user1_png" anchorOffsetX="0" width="217" anchorOffsetY="0" height="188"/>
 		<e:Group x="6.5" y="166">
 		<e:Label text="玩家：" x="0" y="0" textColor="0x000000" size="24"/>
@@ -19,7 +19,7 @@
 		</e:Group>
 	</e:Group>
 	<e:Group id="second" x="403.04" y="347">
-		<e:Image source="def-use_png" x="15" y="10.64" width="124" height="124"/>
+		<e:Image id="secondAvatar" source="def-use_png" x="15" y="10.64" width="124" height="124"/>
 		<e:Image source="rank-user3_png" x="0" y="0" width="154" height="158"/>
 		<e:Group x="6.5" y="166">
 			<e:Label text="玩家：" x="0" y="0" textColor="0x000000" size="24"/>
@@ -31,7 +31,7 @@
 		</e:Group>
 	</e:Group>
 	<e:Group id="third" x="774" y="346.36">
-		<e:Image source="def-use_png" x="15" y="10.64" width="124" height="124"/>
+		<e:Image id="thirdAvatar" source="def-use_png" x="15" y="10.64" width="124" height="124"/>
 		<e:Image x="-3.04" y="-9.09" width="167.64" height="167.09" source="rank-user2_png" anchorOffsetX="0" anchorOffsetY="0"/>
 		<e:Group x="6.5" y="166">
 		<e:Label text="玩家：" x="0" y="0" textColor="0x000000" size="24"/>

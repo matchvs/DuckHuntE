@@ -7,7 +7,8 @@ class GameData {
     public static secretKey: string = "4cc0d042cd5547e98860728bb3207650";//da47754579fa47e4affab5785451622c
 
     public static gameUser: GameUser = new GameUser();
-    public static playerUserIds: Array<number> = [];
+    public static playerUserIds = [];
+    public static playerUserProfiles = [];
 
     public static matchType: number = 0; //匹配类型
     public static randomMatch: number = 1;//随机匹配

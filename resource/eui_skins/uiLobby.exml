@@ -7,7 +7,8 @@
 	</e:Group>
 	<e:Group x="230.7" y="206.06">
 		<e:Label id="username" text="玩家名字" x="0" y="215.12" anchorOffsetX="0" width="295.21" anchorOffsetY="0" height="105.76" verticalAlign="middle" textAlign="center" size="30" textColor="0x050202"/>
-		<e:Image source="def-use_png" x="82.1" y="84.12"/>
+		<e:Image id="playerIconMask" x="82.1" y="84.12" width="131" height="131" anchorOffsetX="0" anchorOffsetY="0" fillMode="scale" source="yuan_png"/>
+		<e:Image id="playerIcon" source="def-use_png" x="82.1" y="84.12" width="131" height="131" anchorOffsetX="0" anchorOffsetY="0" fillMode="scale"/>
 		<e:Image source="handcon_png" x="28.1" y="0"/>
 	</e:Group>
 	<e:Group id="rank" x="1138.62" y="74.48">

@@ -111,35 +111,44 @@ class uiGame extends BaseView {
 		}
 		
 		GameData.playerUserIds.sort(function(a,b){
-			return a-b;
+			return a.id-b.id;
 		});
 		this.positionDic = {};
-		let index = GameData.playerUserIds.indexOf(GameData.gameUser.id);	
+		let index = -1;
+		for(let i=0;i<GameData.playerUserIds.length;i++)
+		{
+			let id = GameData.playerUserIds[i].id;
+			if(id == GameData.gameUser.id)
+			{
+				index = i;
+				break;
+			}
+		}	
 		if(index == 0)
 		{
 			this.positionDic[GameData.gameUser.id] = "middle"
 			if(GameData.maxPlayerNum == 2)
 			{
-				this.positionDic[GameData.playerUserIds[1]] = "left";
+				this.positionDic[GameData.playerUserIds[1].id] = "left";
 			}else if(GameData.maxPlayerNum == 3)
 			{
-				let leftId = GameData.playerUserIds[1];
+				let leftId = GameData.playerUserIds[1].id;
 				this.positionDic[leftId] = "left";
-				let rightId = GameData.playerUserIds[2];
+				let rightId = GameData.playerUserIds[2].id;
 				this.positionDic[rightId] = "right";
 			}
 		}else if(index == 1)
 		{
-			this.positionDic[GameData.playerUserIds[0]] = "left";
+			this.positionDic[GameData.playerUserIds[0].id] = "left";
 			this.positionDic[GameData.gameUser.id] = "middle";
 			if(GameData.maxPlayerNum == 3)
 			{
-				this.positionDic[GameData.playerUserIds[2]] = "right";
+				this.positionDic[GameData.playerUserIds[2].id] = "right";
 			}
 		}else if(index==2)
 		{
-			this.positionDic[GameData.playerUserIds[0]] = "left";
-			this.positionDic[GameData.playerUserIds[1]] = "right";
+			this.positionDic[GameData.playerUserIds[0].id] = "left";
+			this.positionDic[GameData.playerUserIds[1].id] = "right";
 			this.positionDic[GameData.gameUser.id] = "middle";
 		}
 
@@ -349,7 +358,7 @@ class uiGame extends BaseView {
 			let dic = [];
 			for(let i=0;i<GameData.playerUserIds.length;i++)
 			{
-				let id = GameData.playerUserIds[i];
+				let id = GameData.playerUserIds[i].id;
 				let pos = this.positionDic[id];
 				let score = 0;
 				if(pos == "left")
@@ -362,7 +371,7 @@ class uiGame extends BaseView {
 				{
 					score = this.rightScore;
 				}
-				let scoreInfo = {userId:id,score:score};
+				let scoreInfo = {userId:id,score:score,profile:GameData.playerUserIds[i]};
 				dic.push(scoreInfo);
 			}
 			dic.sort(function(a,b){
@@ -388,8 +397,8 @@ class uiGame extends BaseView {
 		this.playerGun.rotation = rotation;
 
 		let self = this;
-		let userids = [];
-		userids = GameData.playerUserIds;
+		// let userids = [];
+		// userids = GameData.playerUserIds;
 		let jsonValue = JSON.stringify({
 			action:"updatePositon",
 			rotation:self.playerGun.rotation,
@@ -427,8 +436,8 @@ class uiGame extends BaseView {
 			this.playBulletAnimation();
 		}
 
-		let userids = [];
-		userids = GameData.playerUserIds;
+		// let userids = [];
+		// userids = GameData.playerUserIds;
 		let value = {
 			action:"shoot",
 			type:"commonBullet",
@@ -464,8 +473,8 @@ class uiGame extends BaseView {
 		this.coinNUM --;
 		this.updateCoin();
 
-		let userids = [];
-		userids = GameData.playerUserIds;
+		// let userids = [];
+		// userids = GameData.playerUserIds;
 		let value = JSON.stringify({
 			action:"shoot",
 			type:"plusBullet",
@@ -608,8 +617,8 @@ class uiGame extends BaseView {
 
 	private modifyMyScore(score)
 	{
-		let userids = [];
-		userids = GameData.playerUserIds;
+		// let userids = [];
+		// userids = GameData.playerUserIds;
 		this.myScore += score;
 		this.myScoreLabel.text = this.myScore.toString();
 
@@ -661,7 +670,10 @@ class uiGame extends BaseView {
             GameData.isRoomOwner = false;
 			//ContextManager.Instance.uiBack();
 			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
-        }
+        }else{
+			let tip = new uiTip("对手离开了房间");
+			this.addChild(tip);
+		}
 
 		if(owner == GameData.gameUser.id)
 		{
@@ -681,7 +693,11 @@ class uiGame extends BaseView {
             GameData.isRoomOwner = false;
 			// ContextManager.Instance.uiBack();
 			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
-        }
+        }else
+		{
+			let tip = new uiTip("对手离开了房间");
+			this.addChild(tip);
+		}
 
 		if(owner == GameData.gameUser.id)
 		{
@@ -689,7 +705,7 @@ class uiGame extends BaseView {
 		}
 	}
 
-		private onErrorRsp(ev:egret.Event)
+	private onErrorRsp(ev:egret.Event)
 	{
 		let data = ev.data;
 		let errorCode = data.errCode;
@@ -708,12 +724,13 @@ class uiGame extends BaseView {
 	{
 		let data = ev.data;
 		let state = data.state;
+		console.log("输出的结果为: " + state);
 		let userID = data.userID;
 		let owner = data.owner;
 		if(state == 1)
 		{
-			let tip = new uiTip("玩家"+userID+"网络断开连接");
-			this.addChild(tip);
+			// let tip = new uiTip("玩家"+userID+"网络断开连接");
+			// this.addChild(tip);
 
 			//手动踢出房间
 			mvs.MsEngine.getInstance.kickPlayer(userID,"");

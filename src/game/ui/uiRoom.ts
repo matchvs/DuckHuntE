@@ -11,6 +11,7 @@ class uiRoom extends BaseView {
 	public constructor() {
 		super();
 		this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addToStage,this);
+		this.addEventListener(egret.Event.REMOVED_FROM_STAGE,this.removeFromStage,this);
 	}
 
 	protected partAdded(partName:string,instance:any):void
@@ -39,6 +40,7 @@ class uiRoom extends BaseView {
 		}else{
 			let roomUserInfoList = context[1];
 			let roominfo = context[2];
+			GameData.isRoomOwner = false;
 			this.joinRoomInit(roomUserInfoList,roominfo);
 			this.refreshStartBtn();
 		}
@@ -145,12 +147,14 @@ class uiRoom extends BaseView {
 
 		roomUserInfoList.push({
 			userId: GameData.gameUser.id,
-						userProfile: ""
+			userProfile: JSON.stringify({"id":GameData.gameUser.id,"nickName":GameData.gameUser.name,"avatar":GameData.gameUser.avatar})
 		})
 		
         this.ownerid = roomInfo.ownerId;
         for (var j = 0; j < roomUserInfoList.length; j++) {
-            this.players[j].setData(roomUserInfoList[j].userId, this.ownerid);
+			let userProfileStr = roomUserInfoList[j].userProfile;
+			let userProfile = JSON.parse(userProfileStr);
+            this.players[j].setData(roomUserInfoList[j].userId, this.ownerid,userProfile);
         }
         this.refreshStartBtn();
 	}
@@ -159,7 +163,7 @@ class uiRoom extends BaseView {
 	{
 		this.roomid = rsp.roomID;
 		this.ownerid = rsp.owner;
-		this.players[0].setData(this.ownerid,this.ownerid);
+		this.players[0].setData(this.ownerid,this.ownerid,{"id":GameData.gameUser.id,"nickName":GameData.gameUser.name,"avatar":GameData.gameUser.avatar});
 		GameData.isRoomOwner = true;
 		this.refreshStartBtn();
 	}
@@ -193,7 +197,7 @@ class uiRoom extends BaseView {
 		for (var j = 0; j < this.players.length; j++) {
             if (this.players[j].userid != 0) {
                 playerCnt++;
-                userIds.push(this.players[j].userid);
+                userIds.push(this.players[j].userProfile);
             }
         }
 
@@ -221,7 +225,7 @@ class uiRoom extends BaseView {
 			return;
 		GameData.isRoomOwner = false;
 		// ContextManager.Instance.uiBack();
-		ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
+		ContextManager.Instance.uiBack();
 	}
 
 	private leaveRoomNotify(ev:egret.Event)
@@ -240,8 +244,8 @@ class uiRoom extends BaseView {
             GameData.isRoomOwner = true;
         }
         for (var i = 0; i < this.players.length; i++) {
-            if (this.players[i].userid !== 0) {
-                this.players[i].setData(this.players[i].userid, this.ownerid);
+            if (this.players[i].userid != 0) {
+                  this.players[i].setData(this.players[i].userid, this.ownerid,this.players[i].userProfile);
             }
         }
         this.refreshStartBtn();
@@ -284,7 +288,7 @@ class uiRoom extends BaseView {
 		if(!this.parent)
 			return;
 		let rsp = ev.data;
-	//	let userID = rsp.userID;
+		let userID = rsp.userID;
 		let owner = rsp.owner;
 		for (var j = 0; j < this.players.length; j++) {
             if (this.players[j].userid == rsp.userId) {
@@ -317,6 +321,7 @@ class uiRoom extends BaseView {
 			return;
 		let rsp = ev.data;
 		GameData.isRoomOwner = false;
+		ContextManager.Instance.uiBack();
 		//ContextManager.Instance.uiBack();
 	}
 
@@ -325,9 +330,11 @@ class uiRoom extends BaseView {
 		if(!this.parent)
 			return;
 		let roomUserInfo = ev.data;
+		let userProfile = roomUserInfo.userProfile;
+		let profile = JSON.parse(userProfile);
 		 for (var j = 0; j < this.players.length; j++) {
-            if (this.players[j].userid === 0) {
-                this.players[j].setData(roomUserInfo.userId, this.ownerid);
+            if (this.players[j].userid == 0) {
+                 this.players[j].setData(roomUserInfo.userId, this.ownerid,profile);
                 break;
             }
         }
@@ -357,7 +364,7 @@ class uiRoom extends BaseView {
 				var userIds = [];
 				for (var j = 0; j < this.players.length; j++) {
 					if (this.players[j].userid != 0) {
-						userIds.push(this.players[j].userid);
+						userIds.push(this.players[j].userProfile);
 					}
 				}
 				GameData.playerUserIds = userIds;

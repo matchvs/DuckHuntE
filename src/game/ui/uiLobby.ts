@@ -4,6 +4,8 @@ class uiLobby extends BaseView {
 	public createRoom:eui.Group;
 	public joinRoom:eui.Group;
 	public username:eui.Label;
+	public playerIconMask:eui.Image;
+	public playerIcon:eui.Image;
 	public inviteUser:eui.Group;
 	public exit:eui.Image;
 
@@ -27,7 +29,16 @@ class uiLobby extends BaseView {
 	private addToStage()
 	{
 		this.username.text = GameData.gameUser.id.toString();
+		this.playerIcon.mask = this.playerIconMask;
 		mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp,this);
+		if(egret.Capabilities.runtimeType == egret.RuntimeType.WXGAME)
+		{
+			this.username.text = GameData.gameUser.name.toString();
+			this.playerIcon.source = GameData.gameUser.avatar
+		}else{
+			this.username.text = GameData.gameUser.id.toString();
+			this.playerIcon.source = GameData.gameUser.avatar
+		}
 	}
 
 	private leaveStage()
@@ -59,10 +70,15 @@ class uiLobby extends BaseView {
 		this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP,this.closeRank,this);
 
 		let platform: any = window.platform;
-		 //加载资源
-		//  platform.openDataContext.postMessage({
-        //     command:'loadRes'
-        // });
+		
+		if(egret.Capabilities.runtimeType == egret.RuntimeType.WXGAME)
+		{
+			let platform: any = window.platform;
+			// 加载资源
+			platform.openDataContext.postMessage({
+				command:'loadRes'
+			});
+		}
 	}
 
 	private onCreateRoomClick()

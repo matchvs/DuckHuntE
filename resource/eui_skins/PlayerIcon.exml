@@ -4,6 +4,8 @@
 	<e:Group x="0" y="0">
 		<e:Image source="play-user2_png" x="1" y="0" scaleX="0.8" scaleY="0.8"/>
 		<e:Image source="play-user1_png" x="3" y="1" scaleX="0.8" scaleY="0.8"/>
-		<e:Image id="player1" source="def-use_png" x="8.5" y="11.5" visible="false"/>
+		<e:Image id="playerMask" x="11.5" y="10.5" width="131" height="131" anchorOffsetX="0" anchorOffsetY="0" source="yuan_png" visible="false"/>
+		<e:Image id="player1" source="def-use_png" x="10.5" y="10.5" width="131" height="131" anchorOffsetX="0" anchorOffsetY="0" visible="false"/>
+
 	</e:Group>
 </e:Skin>
