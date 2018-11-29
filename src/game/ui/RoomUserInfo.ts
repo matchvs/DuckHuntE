@@ -2,6 +2,9 @@ class RoomUserInfo extends eui.Component implements  eui.UIComponent {
 	public default:eui.Group;
 	public common:eui.Group;
 	public username:eui.Label;
+	public playerIcon:eui.Image;
+	public playerMask:eui.Image;
+
 	public type1:eui.Group;
 	public type2:eui.Group;
 	public type3:eui.Group;
@@ -9,6 +12,7 @@ class RoomUserInfo extends eui.Component implements  eui.UIComponent {
 	private roomOwner:boolean;
 	private myself:boolean;
 	public userid = 0;
+	public userProfile = "";
 
 	public constructor() {
 		super();
@@ -39,9 +43,10 @@ class RoomUserInfo extends eui.Component implements  eui.UIComponent {
 		this.userid = 0;
 	}
 
-	public setData(userid,ownerId)
+	public setData(userid,ownerId,userProfile)
 	{
 		this.userid = userid;
+		this.userProfile = userProfile;
 		if(this.userid == ownerId)
 		{
 			this.type1.visible = true;
@@ -67,10 +72,16 @@ class RoomUserInfo extends eui.Component implements  eui.UIComponent {
 		}else {
 			this.kick.visible =true;
 		}
+
+		let nickname = userProfile.nickName;
+		let avatar = userProfile.avatar;
+		this.username.text = nickname;
+		this.playerIcon.source = avatar;
 	}
 	
 	private addToStage()
 	{
+		this.playerIcon.mask = this.playerMask;
 		this.init();
 	}
 

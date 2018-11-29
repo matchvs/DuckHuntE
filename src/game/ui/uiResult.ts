@@ -3,12 +3,16 @@ class uiResult extends BaseView{
 	public first:eui.Group;
 	public firstId:eui.Label;
 	public firstScore:eui.Label;
+	public firstAvatar:eui.Image;
 	public second:eui.Group;
 	public secondId:eui.Label;
 	public secondScore:eui.Label;
+	public secondAvatar:eui.Image;
 	public third:eui.Group;
 	public thirdId:eui.Label;
 	public thirdScore:eui.Label;
+	public thirdAvatar:eui.Image;
+	
 
 	public constructor() {
 		super();
@@ -60,24 +64,33 @@ class uiResult extends BaseView{
 			let firstValue = dic[0];
 			let firstid = firstValue.userId;
 			let firtScore = firstValue.score;
+			let firstPorfile = firstValue.profile;
+			let firstAvatar = firstPorfile.avatar;
 			this.firstId.text = firstid;
 			this.firstScore.text = firtScore;
+			this.firstAvatar.source = firstAvatar;
 			this.first.visible = true;
 			if(dic.length >= 2)
 			{
 				let secondValue = dic[1];
 				let secondid = secondValue.userId;
 				let secondScore = secondValue.score;
+				let secondPorfile = secondValue.profile;
+				let secondAvatar = secondPorfile.avatar;
 				this.secondId.text = secondid;
 				this.secondScore.text = secondScore;
+				this.secondAvatar.source = secondAvatar;
 				this.second.visible = true;
 				if(dic.length >= 3)
 				{
 					let thirdValue = dic[2];
 					let thirdid = thirdValue.userId;
 					let thirdScore = thirdValue.score;
+					let thirdPorfile = thirdValue.profile;
+					let thirdAvatar = thirdPorfile.avatar;
 					this.thirdId.text = thirdid;
 					this.thirdScore.text = thirdScore;
+					this.thirdAvatar.source = thirdAvatar;
 					this.third.visible = true; 
 				}
 			}
