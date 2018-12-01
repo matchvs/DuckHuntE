@@ -393,7 +393,7 @@ class uiGame extends BaseView {
 	private onSlideChange()
 	{
 		let value = this.rotationController.value;
-		let rotation = 6*value - 30;
+		let rotation = 3*value - 15;
 		this.playerGun.rotation = rotation;
 
 		let self = this;

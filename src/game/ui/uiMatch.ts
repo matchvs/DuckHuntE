@@ -38,7 +38,7 @@ class uiMatch extends BaseView {
 
 	public onEnter(context:any):void
 	{
-		 let info = {name:GameData.gameUser.name,avatar:GameData.gameUser.avatar};
+		 let info = {"id":GameData.gameUser.id,"nickName":GameData.gameUser.name,"avatar":GameData.gameUser.avatar};
 		 let infostr = JSON.stringify(info);
 		 mvs.MsEngine.getInstance.joinRandomRoom(GameData.maxPlayerNum,infostr);
 
@@ -96,8 +96,6 @@ class uiMatch extends BaseView {
 	}
 
 	private joinRoomResponse(event:egret.Event) {
-		if(!this.parent)
-			return;
 		let data = event.data;
 		let roomInfo = data.roomInfo;
 		let roomuserInfoList = data.userList;
@@ -160,8 +158,6 @@ class uiMatch extends BaseView {
 	}
 
 	private joinOverNotify(ev:egret.Event) {
-		if(!this.parent)
-			return;
 		this.gameUserList.sort(function(a,b){
 			return a-b;
 		})
@@ -171,8 +167,10 @@ class uiMatch extends BaseView {
 	}
 
 	private joinOverResponse(ev:egret.Event) {
-		if(!this.parent)
-			return;
+		this.gameUserList.sort(function(a,b){
+			return a-b;
+		})
+		GameData.playerUserIds = this.gameUserList;
 		//进入游戏界面
 		ContextManager.Instance.showUI(UIType.gameBoard);
 	}
