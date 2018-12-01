@@ -724,7 +724,6 @@ class uiGame extends BaseView {
 	{
 		let data = ev.data;
 		let state = data.state;
-		console.log("输出的结果为: " + state);
 		let userID = data.userID;
 		let owner = data.owner;
 		if(state == 1)

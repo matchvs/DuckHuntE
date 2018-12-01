@@ -62,9 +62,9 @@ class uiResult extends BaseView{
 		if(dic.length >= 1)
 		{
 			let firstValue = dic[0];
-			let firstid = firstValue.userId;
 			let firtScore = firstValue.score;
 			let firstPorfile = firstValue.profile;
+			let firstid = firstPorfile.nickName;
 			let firstAvatar = firstPorfile.avatar;
 			this.firstId.text = firstid;
 			this.firstScore.text = firtScore;
@@ -73,10 +73,10 @@ class uiResult extends BaseView{
 			if(dic.length >= 2)
 			{
 				let secondValue = dic[1];
-				let secondid = secondValue.userId;
 				let secondScore = secondValue.score;
 				let secondPorfile = secondValue.profile;
 				let secondAvatar = secondPorfile.avatar;
+				let secondid = secondPorfile.nickName;
 				this.secondId.text = secondid;
 				this.secondScore.text = secondScore;
 				this.secondAvatar.source = secondAvatar;
@@ -84,10 +84,10 @@ class uiResult extends BaseView{
 				if(dic.length >= 3)
 				{
 					let thirdValue = dic[2];
-					let thirdid = thirdValue.userId;
 					let thirdScore = thirdValue.score;
 					let thirdPorfile = thirdValue.profile;
 					let thirdAvatar = thirdPorfile.avatar;
+					let thirdid = thirdPorfile.nickName;
 					this.thirdId.text = thirdid;
 					this.thirdScore.text = thirdScore;
 					this.thirdAvatar.source = thirdAvatar;
