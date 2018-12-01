@@ -10,6 +10,7 @@ class uiCreateRoom extends BaseView{
 	public constructor() {
 		super();
 		this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addToStage,this);
+		this.addEventListener(egret.Event.REMOVED_FROM_STAGE,this.removeFromStage,this);
 	}
 
 	protected partAdded(partName:string,instance:any):void
@@ -33,6 +34,12 @@ class uiCreateRoom extends BaseView{
 		this.plus.visible = true;
 		this.plus.touchEnabled = true;
 		this.sub.touchEnabled = false;
+		this.addMsResponseListen();
+	}
+
+	private removeFromStage()
+	{
+		this.removeMsResponseListen();
 	}
 
 	private init()
@@ -41,12 +48,16 @@ class uiCreateRoom extends BaseView{
 		this.plus.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onPlusClick,this);
 		this.sub.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onSubClick,this);
 		this.create.addEventListener(egret.TouchEvent.TOUCH_TAP,this.createRoom,this);
-		this.addMsResponseListen();
 	}
 
     private addMsResponseListen(){
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_CREATEROOM_RSP, this.createRoomResponse,this);
     }
+
+	private removeMsResponseListen()
+	{
+		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_CREATEROOM_RSP,this.createRoomResponse,this);
+	}
 
 	private onBackClick()
 	{

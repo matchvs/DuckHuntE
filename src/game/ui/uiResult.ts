@@ -21,6 +21,8 @@ class uiResult extends BaseView{
 	protected partAdded(partName:string,instance:any):void
 	{
 		super.partAdded(partName,instance);
+		this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addToStage,this);
+		this.addEventListener(egret.Event.REMOVED_FROM_STAGE,this.removeFromStage,this);
 	}
 
 
