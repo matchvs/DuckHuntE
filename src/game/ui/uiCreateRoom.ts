@@ -55,31 +55,47 @@ class uiCreateRoom extends BaseView{
 
 	private  onPlusClick()
 	{
+		// if(this.num >= 3)
+		// {
+		// 	this.plus.touchEnabled = false;
+		// 	this.plus.visible =false;
+		// 	this.num = 3;
+		// }else{
+		// 	this.num ++;
+		// 	this.sub.touchEnabled = true;
+		// }
+		this.num ++;
 		if(this.num >= 3)
 		{
 			this.plus.touchEnabled = false;
-			this.plus.visible =false;
+			this.plus.visible = false;
 			this.num = 3;
-		}else{
-			this.num ++;
-			this.sub.touchEnabled = true;
 		}
-		this.sub.visible = true;		
+		this.sub.visible = true;	
+		this.sub.touchEnabled = true;	
 		this.playerNum.text = this.num.toString();
 	}
 
 	private onSubClick()
 	{
+		// if(this.num <= 1)
+		// {
+		// 	this.sub.touchEnabled = false;
+		// 	this.sub.visible =false;
+		// 	this.num = 1;
+		// }else{
+		// 	this.num --;
+		// 	this.plus.touchEnabled = true;
+		// }
+		this.num --;
 		if(this.num <= 1)
 		{
 			this.sub.touchEnabled = false;
-			this.sub.visible =false;
+			this.sub.visible = false;
 			this.num = 1;
-		}else{
-			this.num --;
-			this.plus.touchEnabled = true;
 		}
 		this.plus.visible = true;
+		this.plus.touchEnabled = true;
 		this.playerNum.text = this.num.toString();
 	}
 
