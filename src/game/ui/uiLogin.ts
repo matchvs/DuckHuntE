@@ -37,18 +37,35 @@ class uiLogin extends BaseView {
 	{
 		mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_REGISTERUSER_RSP,this.registResponse,this);
 		mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_LOGIN_RSP,this.loginResponse,this);
+		mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_INIT_RSP, this.initResponse,this);
 	}
 
 	private removeMsResponseListen()
 	{
 		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_REGISTERUSER_RSP,this.registResponse,this);
 		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LOGIN_RSP,this.loginResponse,this);
+		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_INIT_RSP, this.initResponse,this);
 	}
 
-	private onStartClick()
+	private initResponse(ev:egret.Event)
 	{
-		mvs.MsEngine.getInstance.registerUser();
+		if(egret.Capabilities.runtimeType == egret.RuntimeType.WXGAME)
+		{
+			this.login().catch(e => {
+				console.log(e);
+			})
+		}
 	}
+
+	private loginResponse(ev:egret.Event)
+	{
+		let login = ev.data;
+		if(login.status == 200)
+		{
+			ContextManager.Instance.showUI(UIType.lobbyBoard);
+		}
+	}
+
 
 	private registResponse(ev:egret.Event)
 	{
@@ -56,23 +73,25 @@ class uiLogin extends BaseView {
 			return;
 		let userInfo = ev.data;
         GameData.gameUser.id = userInfo.id;
-        GameData.gameUser.name = userInfo.name;
-        GameData.gameUser.avatar = userInfo.avatar;
         GameData.gameUser.token = userInfo.token;
 
+		if(egret.Capabilities.runtimeType != egret.RuntimeType.WXGAME)
+		{
+			GameData.gameUser.name = userInfo.name;
+        	GameData.gameUser.avatar = userInfo.avatar;
+		}
 		if(userInfo.status == 0){
             mvs.MsEngine.getInstance.login(userInfo.id, userInfo.token, GameData.gameID,GameData.appkey, GameData.secretKey);
         }
 	}
-
-	private loginResponse(ev:egret.Event)
+	
+	private onStartClick()
 	{
-		if(!this.parent)
-			return;
-		let login = ev.data;
-		if(login.status == 200)
-		{
-			ContextManager.Instance.showUI(UIType.lobbyBoard);
-		}
+		mvs.MsEngine.getInstance.registerUser();
+	}
+	
+	private async login()
+	{
+		await platform.login();
 	}
 }
