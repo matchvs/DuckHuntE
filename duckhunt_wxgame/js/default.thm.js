@@ -613,7 +613,7 @@ var egret = window.egret;window.skins={};
 	__extends(PlayerIconSkin, _super);
 	function PlayerIconSkin() {
 		_super.call(this);
-		this.skinParts = ["player1"];
+		this.skinParts = ["playerMask","player1"];
 		
 		this.height = 155;
 		this.width = 155;
@@ -625,7 +625,7 @@ var egret = window.egret;window.skins={};
 		var t = new eui.Group();
 		t.x = 0;
 		t.y = 0;
-		t.elementsContent = [this._Image1_i(),this._Image2_i(),this.player1_i()];
+		t.elementsContent = [this._Image1_i(),this._Image2_i(),this.playerMask_i(),this.player1_i()];
 		return t;
 	};
 	_proto._Image1_i = function () {
@@ -646,13 +646,30 @@ var egret = window.egret;window.skins={};
 		t.y = 1;
 		return t;
 	};
+	_proto.playerMask_i = function () {
+		var t = new eui.Image();
+		this.playerMask = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 131;
+		t.source = "yuan_png";
+		t.visible = false;
+		t.width = 131;
+		t.x = 11.5;
+		t.y = 10.5;
+		return t;
+	};
 	_proto.player1_i = function () {
 		var t = new eui.Image();
 		this.player1 = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 131;
 		t.source = "def-use_png";
 		t.visible = false;
-		t.x = 8.5;
-		t.y = 11.5;
+		t.width = 131;
+		t.x = 10.5;
+		t.y = 10.5;
 		return t;
 	};
 	return PlayerIconSkin;
@@ -831,14 +848,15 @@ var egret = window.egret;window.skins={};
 		this.roomId = t;
 		t.anchorOffsetX = 0;
 		t.anchorOffsetY = 0;
-		t.height = 37.58;
+		t.height = 13.33;
+		t.size = 10;
 		t.text = "10001";
 		t.textAlign = "center";
 		t.textColor = 0x070707;
 		t.verticalAlign = "middle";
 		t.width = 127.03;
 		t.x = 4;
-		t.y = 93;
+		t.y = 117.25;
 		return t;
 	};
 	_proto.roomname_i = function () {
@@ -847,6 +865,7 @@ var egret = window.egret;window.skins={};
 		t.anchorOffsetX = 0;
 		t.anchorOffsetY = 0;
 		t.height = 37.58;
+		t.size = 13;
 		t.text = "默认";
 		t.textAlign = "center";
 		t.textColor = 0x070707;
@@ -861,7 +880,7 @@ var egret = window.egret;window.skins={};
 	__extends(RoomUserInfoSkin, _super);
 	function RoomUserInfoSkin() {
 		_super.call(this);
-		this.skinParts = ["username","common","default","type1","type2","type3","kick"];
+		this.skinParts = ["playerIcon","playerMask","username","common","default","type1","type2","type3","kick"];
 		
 		this.height = 219.33;
 		this.width = 162;
@@ -881,19 +900,36 @@ var egret = window.egret;window.skins={};
 	_proto.common_i = function () {
 		var t = new eui.Group();
 		this.common = t;
-		t.x = 4.02;
+		t.x = 5.02;
 		t.y = 3.35;
-		t.elementsContent = [this._Image1_i(),this._Image2_i(),this.username_i()];
+		t.elementsContent = [this.playerIcon_i(),this.playerMask_i(),this._Image1_i(),this.username_i()];
 		return t;
 	};
-	_proto._Image1_i = function () {
+	_proto.playerIcon_i = function () {
 		var t = new eui.Image();
+		this.playerIcon = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 125;
 		t.source = "def-user-squ_png";
+		t.width = 125;
 		t.x = 0;
 		t.y = 0;
 		return t;
 	};
-	_proto._Image2_i = function () {
+	_proto.playerMask_i = function () {
+		var t = new eui.Image();
+		this.playerMask = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 125;
+		t.source = "def-user-squ_png";
+		t.width = 125;
+		t.x = 1;
+		t.y = 2;
+		return t;
+	};
+	_proto._Image1_i = function () {
 		var t = new eui.Image();
 		t.anchorOffsetX = 0;
 		t.anchorOffsetY = 0;
@@ -907,12 +943,15 @@ var egret = window.egret;window.skins={};
 	_proto.username_i = function () {
 		var t = new eui.Label();
 		this.username = t;
+		t.anchorOffsetX = 0;
 		t.anchorOffsetY = 0;
 		t.height = 21.33;
 		t.size = 15;
 		t.text = "226300";
+		t.textAlign = "center";
 		t.verticalAlign = "middle";
-		t.x = 42.17;
+		t.width = 121.6;
+		t.x = 0.97;
 		t.y = 103.17;
 		return t;
 	};
@@ -922,10 +961,10 @@ var egret = window.egret;window.skins={};
 		t.visible = false;
 		t.x = 0;
 		t.y = 0;
-		t.elementsContent = [this._Image3_i(),this._Image4_i(),this._Image5_i(),this._Image6_i()];
+		t.elementsContent = [this._Image2_i(),this._Image3_i(),this._Image4_i(),this._Image5_i()];
 		return t;
 	};
-	_proto._Image3_i = function () {
+	_proto._Image2_i = function () {
 		var t = new eui.Image();
 		t.alpha = 0.6;
 		t.anchorOffsetX = 0;
@@ -937,7 +976,7 @@ var egret = window.egret;window.skins={};
 		t.y = 5.3;
 		return t;
 	};
-	_proto._Image4_i = function () {
+	_proto._Image3_i = function () {
 		var t = new eui.Image();
 		t.anchorOffsetX = 0;
 		t.anchorOffsetY = 0;
@@ -946,13 +985,13 @@ var egret = window.egret;window.skins={};
 		t.y = 147;
 		return t;
 	};
-	_proto._Image5_i = function () {
+	_proto._Image4_i = function () {
 		var t = new eui.Image();
 		t.source = "bar-user2.1_png";
 		t.y = -1;
 		return t;
 	};
-	_proto._Image6_i = function () {
+	_proto._Image5_i = function () {
 		var t = new eui.Image();
 		t.anchorOffsetX = 0;
 		t.anchorOffsetY = 0;
@@ -968,17 +1007,17 @@ var egret = window.egret;window.skins={};
 		this.type1 = t;
 		t.x = 0;
 		t.y = 0;
-		t.elementsContent = [this._Image7_i(),this._Image8_i(),this._Label1_i()];
+		t.elementsContent = [this._Image6_i(),this._Image7_i(),this._Label1_i()];
 		return t;
 	};
-	_proto._Image7_i = function () {
+	_proto._Image6_i = function () {
 		var t = new eui.Image();
 		t.source = "bar-user1.2_png";
 		t.x = 0;
 		t.y = 0;
 		return t;
 	};
-	_proto._Image8_i = function () {
+	_proto._Image7_i = function () {
 		var t = new eui.Image();
 		t.source = "bar-user1.1_png";
 		t.x = 1.67;
@@ -999,17 +1038,17 @@ var egret = window.egret;window.skins={};
 		t.visible = false;
 		t.x = 0;
 		t.y = 0;
-		t.elementsContent = [this._Image9_i(),this._Image10_i(),this._Label2_i()];
+		t.elementsContent = [this._Image8_i(),this._Image9_i(),this._Label2_i()];
 		return t;
 	};
-	_proto._Image9_i = function () {
+	_proto._Image8_i = function () {
 		var t = new eui.Image();
 		t.source = "bar-user2.1_png";
 		t.x = 0;
 		t.y = 0;
 		return t;
 	};
-	_proto._Image10_i = function () {
+	_proto._Image9_i = function () {
 		var t = new eui.Image();
 		t.source = "bar-user2.2_png";
 		t.x = 1.67;
@@ -1030,17 +1069,17 @@ var egret = window.egret;window.skins={};
 		t.visible = false;
 		t.x = 0;
 		t.y = 0;
-		t.elementsContent = [this._Image11_i(),this._Image12_i(),this._Label3_i()];
+		t.elementsContent = [this._Image10_i(),this._Image11_i(),this._Label3_i()];
 		return t;
 	};
-	_proto._Image11_i = function () {
+	_proto._Image10_i = function () {
 		var t = new eui.Image();
 		t.source = "bar-user3.1_png";
 		t.x = 0;
 		t.y = 0;
 		return t;
 	};
-	_proto._Image12_i = function () {
+	_proto._Image11_i = function () {
 		var t = new eui.Image();
 		t.source = "bar-user3.3_png";
 		t.x = 1.67;
@@ -2281,11 +2320,13 @@ var egret = window.egret;window.skins={};
 	_proto.leftPlayer_i = function () {
 		var t = new eui.Group();
 		this.leftPlayer = t;
+		t.anchorOffsetX = 25.5;
+		t.anchorOffsetY = 242;
 		t.height = 242;
 		t.rotation = 0;
 		t.width = 51;
-		t.x = 30.5;
-		t.y = 507;
+		t.x = 26.5;
+		t.y = 749;
 		t.elementsContent = [this._Image15_i(),this.leftPlayerBulletPos_i(),this.leftplayerCommonBulletPos_i()];
 		return t;
 	};
@@ -2322,7 +2363,9 @@ var egret = window.egret;window.skins={};
 	_proto.rightPlayer_i = function () {
 		var t = new eui.Group();
 		this.rightPlayer = t;
-		t.x = 410.44;
+		t.anchorOffsetX = 13;
+		t.rotation = 0;
+		t.x = 431.44;
 		t.y = 749;
 		t.elementsContent = [this._Image16_i(),this.rightPlayerBulletPos_i(),this.rightplayerCommonBulletPos_i()];
 		return t;
@@ -2503,7 +2546,7 @@ var egret = window.egret;window.skins={};
 	__extends(uiLobbySkin, _super);
 	function uiLobbySkin() {
 		_super.call(this);
-		this.skinParts = ["username","rank","randomMatch","createRoom","joinRoom","inviteUser","exit"];
+		this.skinParts = ["username","playerIconMask","playerIcon","rank","randomMatch","createRoom","joinRoom","inviteUser","exit"];
 		
 		this.height = 750;
 		this.width = 1334;
@@ -2536,7 +2579,7 @@ var egret = window.egret;window.skins={};
 		var t = new eui.Group();
 		t.x = 230.7;
 		t.y = 206.06;
-		t.elementsContent = [this.username_i(),this._Image3_i(),this._Image4_i()];
+		t.elementsContent = [this.username_i(),this.playerIconMask_i(),this.playerIcon_i(),this._Image3_i()];
 		return t;
 	};
 	_proto.username_i = function () {
@@ -2555,14 +2598,33 @@ var egret = window.egret;window.skins={};
 		t.y = 215.12;
 		return t;
 	};
-	_proto._Image3_i = function () {
+	_proto.playerIconMask_i = function () {
 		var t = new eui.Image();
-		t.source = "def-use_png";
+		this.playerIconMask = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.fillMode = "scale";
+		t.height = 131;
+		t.source = "yuan_png";
+		t.width = 131;
 		t.x = 82.1;
 		t.y = 84.12;
 		return t;
 	};
-	_proto._Image4_i = function () {
+	_proto.playerIcon_i = function () {
+		var t = new eui.Image();
+		this.playerIcon = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.fillMode = "scale";
+		t.height = 131;
+		t.source = "def-use_png";
+		t.width = 131;
+		t.x = 82.1;
+		t.y = 84.12;
+		return t;
+	};
+	_proto._Image3_i = function () {
 		var t = new eui.Image();
 		t.source = "handcon_png";
 		t.x = 28.1;
@@ -2574,10 +2636,10 @@ var egret = window.egret;window.skins={};
 		this.rank = t;
 		t.x = 1138.62;
 		t.y = 74.48;
-		t.elementsContent = [this._Image5_i(),this._Label1_i()];
+		t.elementsContent = [this._Image4_i(),this._Label1_i()];
 		return t;
 	};
-	_proto._Image5_i = function () {
+	_proto._Image4_i = function () {
 		var t = new eui.Image();
 		t.source = "rank-logo_png";
 		t.x = 6.5;
@@ -2603,10 +2665,10 @@ var egret = window.egret;window.skins={};
 		this.randomMatch = t;
 		t.x = 658;
 		t.y = 288;
-		t.elementsContent = [this._Image6_i(),this._Label2_i()];
+		t.elementsContent = [this._Image5_i(),this._Label2_i()];
 		return t;
 	};
-	_proto._Image6_i = function () {
+	_proto._Image5_i = function () {
 		var t = new eui.Image();
 		t.source = "dating-btn_png";
 		t.x = 0;
@@ -2632,10 +2694,10 @@ var egret = window.egret;window.skins={};
 		this.createRoom = t;
 		t.x = 667;
 		t.y = 446;
-		t.elementsContent = [this._Image7_i(),this._Label3_i()];
+		t.elementsContent = [this._Image6_i(),this._Label3_i()];
 		return t;
 	};
-	_proto._Image7_i = function () {
+	_proto._Image6_i = function () {
 		var t = new eui.Image();
 		t.source = "dating-btn2_png";
 		t.x = 0;
@@ -2661,10 +2723,10 @@ var egret = window.egret;window.skins={};
 		this.joinRoom = t;
 		t.x = 925;
 		t.y = 448;
-		t.elementsContent = [this._Image8_i(),this._Label4_i()];
+		t.elementsContent = [this._Image7_i(),this._Label4_i()];
 		return t;
 	};
-	_proto._Image8_i = function () {
+	_proto._Image7_i = function () {
 		var t = new eui.Image();
 		t.source = "dating-btn2_png";
 		t.x = 0;
@@ -2690,10 +2752,10 @@ var egret = window.egret;window.skins={};
 		this.inviteUser = t;
 		t.x = 831;
 		t.y = 606;
-		t.elementsContent = [this._Image9_i(),this._Label5_i()];
+		t.elementsContent = [this._Image8_i(),this._Label5_i()];
 		return t;
 	};
-	_proto._Image9_i = function () {
+	_proto._Image8_i = function () {
 		var t = new eui.Image();
 		t.source = "dating-btn3_png";
 		t.x = 0;
@@ -2863,7 +2925,7 @@ var egret = window.egret;window.skins={};
 	__extends(uiResultSkin, _super);
 	function uiResultSkin() {
 		_super.call(this);
-		this.skinParts = ["firstId","firstScore","first","secondId","secondScore","second","thirdId","thirdScore","third","back"];
+		this.skinParts = ["firstAvatar","firstId","firstScore","first","secondAvatar","secondId","secondScore","second","thirdAvatar","thirdId","thirdScore","third","back"];
 		
 		this.height = 750;
 		this.width = 1334;
@@ -2906,11 +2968,14 @@ var egret = window.egret;window.skins={};
 		this.first = t;
 		t.x = 600;
 		t.y = 139.36;
-		t.elementsContent = [this._Image4_i(),this._Image5_i(),this._Group2_i(),this._Group3_i()];
+		t.elementsContent = [this.firstAvatar_i(),this._Image4_i(),this._Group2_i(),this._Group3_i()];
 		return t;
 	};
-	_proto._Image4_i = function () {
+	_proto.firstAvatar_i = function () {
 		var t = new eui.Image();
+		this.firstAvatar = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
 		t.height = 124;
 		t.source = "def-use_png";
 		t.width = 124;
@@ -2918,7 +2983,7 @@ var egret = window.egret;window.skins={};
 		t.y = 10.64;
 		return t;
 	};
-	_proto._Image5_i = function () {
+	_proto._Image4_i = function () {
 		var t = new eui.Image();
 		t.anchorOffsetX = 0;
 		t.anchorOffsetY = 0;
@@ -2949,8 +3014,8 @@ var egret = window.egret;window.skins={};
 		var t = new eui.Label();
 		this.firstId = t;
 		t.anchorOffsetX = 0;
-		t.size = 24;
-		t.text = "123456";
+		t.size = 22;
+		t.text = "玩家GisvgvCH";
 		t.textColor = 0x000000;
 		t.width = 156;
 		t.x = 67.5;
@@ -2990,11 +3055,12 @@ var egret = window.egret;window.skins={};
 		this.second = t;
 		t.x = 403.04;
 		t.y = 347;
-		t.elementsContent = [this._Image6_i(),this._Image7_i(),this._Group4_i(),this._Group5_i()];
+		t.elementsContent = [this.secondAvatar_i(),this._Image5_i(),this._Group4_i(),this._Group5_i()];
 		return t;
 	};
-	_proto._Image6_i = function () {
+	_proto.secondAvatar_i = function () {
 		var t = new eui.Image();
+		this.secondAvatar = t;
 		t.height = 124;
 		t.source = "def-use_png";
 		t.width = 124;
@@ -3002,7 +3068,7 @@ var egret = window.egret;window.skins={};
 		t.y = 10.64;
 		return t;
 	};
-	_proto._Image7_i = function () {
+	_proto._Image5_i = function () {
 		var t = new eui.Image();
 		t.height = 158;
 		t.source = "rank-user3_png";
@@ -3031,7 +3097,7 @@ var egret = window.egret;window.skins={};
 		var t = new eui.Label();
 		this.secondId = t;
 		t.anchorOffsetX = 0;
-		t.size = 24;
+		t.size = 22;
 		t.text = "123456";
 		t.textColor = 0x000000;
 		t.width = 156;
@@ -3072,11 +3138,12 @@ var egret = window.egret;window.skins={};
 		this.third = t;
 		t.x = 774;
 		t.y = 346.36;
-		t.elementsContent = [this._Image8_i(),this._Image9_i(),this._Group6_i(),this._Group7_i()];
+		t.elementsContent = [this.thirdAvatar_i(),this._Image6_i(),this._Group6_i(),this._Group7_i()];
 		return t;
 	};
-	_proto._Image8_i = function () {
+	_proto.thirdAvatar_i = function () {
 		var t = new eui.Image();
+		this.thirdAvatar = t;
 		t.height = 124;
 		t.source = "def-use_png";
 		t.width = 124;
@@ -3084,7 +3151,7 @@ var egret = window.egret;window.skins={};
 		t.y = 10.64;
 		return t;
 	};
-	_proto._Image9_i = function () {
+	_proto._Image6_i = function () {
 		var t = new eui.Image();
 		t.anchorOffsetX = 0;
 		t.anchorOffsetY = 0;
@@ -3115,7 +3182,7 @@ var egret = window.egret;window.skins={};
 		var t = new eui.Label();
 		this.thirdId = t;
 		t.anchorOffsetX = 0;
-		t.size = 24;
+		t.size = 22;
 		t.text = "123456";
 		t.textColor = 0x000000;
 		t.width = 156;
@@ -3156,10 +3223,10 @@ var egret = window.egret;window.skins={};
 		this.back = t;
 		t.x = 548.5;
 		t.y = 641;
-		t.elementsContent = [this._Image10_i(),this._Label7_i()];
+		t.elementsContent = [this._Image7_i(),this._Label7_i()];
 		return t;
 	};
-	_proto._Image10_i = function () {
+	_proto._Image7_i = function () {
 		var t = new eui.Image();
 		t.source = "home-btn5_png";
 		t.x = 0;
