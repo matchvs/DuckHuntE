@@ -232,6 +232,10 @@ class uiRoom extends BaseView {
 	{
 		if(!this.parent)
 			return;
+		
+		let tip = new uiTip("对手离开了房间");
+		this.addChild(tip);
+
 		let leaveRoomInfo = ev.data;
 		for (var j = 0; j < this.players.length; j++) {
             if (this.players[j].userid === leaveRoomInfo.userId) {
@@ -267,7 +271,10 @@ class uiRoom extends BaseView {
             GameData.isRoomOwner = false;
 			//ContextManager.Instance.uiBack();
 			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
-        }
+        }else{
+			let tip = new uiTip("对手离开了房间");
+			this.addChild(tip);
+		}
 
 		this.ownerid = owner;
 		if(owner == GameData.gameUser.id)
@@ -300,7 +307,11 @@ class uiRoom extends BaseView {
             GameData.isRoomOwner = false;
 			// ContextManager.Instance.uiBack();
 			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
-        }
+        }else
+		{
+			let tip = new uiTip("对手离开了房间");
+			this.addChild(tip);
+		}
 
 		if(owner == GameData.gameUser.id)
 		{

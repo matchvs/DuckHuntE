@@ -671,7 +671,7 @@ class uiGame extends BaseView {
 			//ContextManager.Instance.uiBack();
 			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
         }else{
-			let tip = new uiTip("对手离开了房间");
+			let tip = new uiTip("对手离开了游戏");
 			this.addChild(tip);
 		}
 
@@ -695,7 +695,7 @@ class uiGame extends BaseView {
 			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
         }else
 		{
-			let tip = new uiTip("对手离开了房间");
+			let tip = new uiTip("对手离开了游戏");
 			this.addChild(tip);
 		}
 
