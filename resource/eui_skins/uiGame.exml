@@ -236,12 +236,12 @@
 			<e:Image id="playerBulletPos" x="9" y="337.5" source="dazidan_png" alpha="0.01"/>
 			<e:Image id="playerCommonBulletPos" x="15.17" y="369.5" alpha="0.01" source="bullet_png"/>
 		</e:Group>
-		<e:Group id="leftPlayer" x="30.5" width="51" height="242" y="507" rotation="0">
+		<e:Group id="leftPlayer" x="26.5" width="51" height="242" y="749" rotation="0" anchorOffsetX="25.5" anchorOffsetY="242">
 			<e:Image source="leftgun_png" x="25.5" y="242" anchorOffsetX="25.5" anchorOffsetY="242" rotation="0"/>
 			<e:Image id="leftPlayerBulletPos" x="8.2" y="-98.89" source="dazidan_png" alpha="0.01" scaleX="1" scaleY="1"/>
 			<e:Image id="leftplayerCommonBulletPos" x="13.63" y="-59.09" alpha="0.01" source="bullet_png"/>
 		</e:Group>
-		<e:Group id="rightPlayer" x="410.44" y="749">
+		<e:Group id="rightPlayer" x="431.44" y="749" anchorOffsetX="13" rotation="0">
 			<e:Image source="rightgun_png" x="0" y="0" anchorOffsetX="25.5" anchorOffsetY="239" rotation="0"/>
 			<e:Image id="rightPlayerBulletPos" x="-15.12" y="-341.91" source="dazidan_png" alpha="0.01" scaleX="1" scaleY="1"/>
 			<e:Image id="rightplayerCommonBulletPos" x="-9.69" y="-302.11" alpha="0.01" source="bullet_png"/>

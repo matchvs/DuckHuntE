@@ -126,6 +126,7 @@ var uiCreateRoom = (function (_super) {
         var _this = _super.call(this) || this;
         _this.num = 1;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.addToStage, _this);
+        _this.addEventListener(egret.Event.REMOVED_FROM_STAGE, _this.removeFromStage, _this);
         return _this;
     }
     uiCreateRoom.prototype.partAdded = function (partName, instance) {
@@ -138,55 +139,76 @@ var uiCreateRoom = (function (_super) {
     uiCreateRoom.prototype.addToStage = function () {
         this.num = 1;
         this.playerNum.text = this.num.toString();
+        this.roomName.text = "";
         this.sub.visible = false;
         this.plus.visible = true;
         this.plus.touchEnabled = true;
         this.sub.touchEnabled = false;
+        this.addMsResponseListen();
+    };
+    uiCreateRoom.prototype.removeFromStage = function () {
+        this.removeMsResponseListen();
     };
     uiCreateRoom.prototype.init = function () {
         this.back.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onBackClick, this);
         this.plus.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onPlusClick, this);
         this.sub.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onSubClick, this);
         this.create.addEventListener(egret.TouchEvent.TOUCH_TAP, this.createRoom, this);
-        this.addMsResponseListen();
     };
     uiCreateRoom.prototype.addMsResponseListen = function () {
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_CREATEROOM_RSP, this.createRoomResponse, this);
+    };
+    uiCreateRoom.prototype.removeMsResponseListen = function () {
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_CREATEROOM_RSP, this.createRoomResponse, this);
     };
     uiCreateRoom.prototype.onBackClick = function () {
         ContextManager.Instance.dialogBack();
     };
     uiCreateRoom.prototype.onPlusClick = function () {
+        // if(this.num >= 3)
+        // {
+        // 	this.plus.touchEnabled = false;
+        // 	this.plus.visible =false;
+        // 	this.num = 3;
+        // }else{
+        // 	this.num ++;
+        // 	this.sub.touchEnabled = true;
+        // }
+        this.num++;
         if (this.num >= 3) {
             this.plus.touchEnabled = false;
             this.plus.visible = false;
             this.num = 3;
         }
-        else {
-            this.num++;
-            this.sub.touchEnabled = true;
-        }
         this.sub.visible = true;
+        this.sub.touchEnabled = true;
         this.playerNum.text = this.num.toString();
     };
     uiCreateRoom.prototype.onSubClick = function () {
+        // if(this.num <= 1)
+        // {
+        // 	this.sub.touchEnabled = false;
+        // 	this.sub.visible =false;
+        // 	this.num = 1;
+        // }else{
+        // 	this.num --;
+        // 	this.plus.touchEnabled = true;
+        // }
+        this.num--;
         if (this.num <= 1) {
             this.sub.touchEnabled = false;
             this.sub.visible = false;
             this.num = 1;
         }
-        else {
-            this.num--;
-            this.plus.touchEnabled = true;
-        }
         this.plus.visible = true;
+        this.plus.touchEnabled = true;
         this.playerNum.text = this.num.toString();
     };
     uiCreateRoom.prototype.createRoom = function () {
         GameData.maxPlayerNum = this.num;
         var roomName = this.roomName.text;
         var create = new MsCreateRoomInfo(roomName, this.num, 0, 0, 1, "");
-        mvs.MsEngine.getInstance.createRoom(create, JSON.stringify({ name: GameData.gameUser.name, avatar: GameData.gameUser.avatar }));
+        mvs.MsEngine.getInstance.createRoom(create, JSON.stringify({ "id": GameData.gameUser.id, "nickName": GameData.gameUser.name, "avatar": GameData.gameUser.avatar }));
     };
     uiCreateRoom.prototype.createRoomResponse = function (ev) {
         var rsp = ev.data;
@@ -326,6 +348,7 @@ var GameData = (function () {
     GameData.secretKey = "4cc0d042cd5547e98860728bb3207650"; //da47754579fa47e4affab5785451622c
     GameData.gameUser = new GameUser();
     GameData.playerUserIds = [];
+    GameData.playerUserProfiles = [];
     GameData.matchType = 0; //匹配类型
     GameData.randomMatch = 1; //随机匹配
     GameData.specialMatch = 2; //指定房间号匹配
@@ -848,8 +871,8 @@ var mvs;
                 console.info("[joinRoomResponse] status：", status);
                 var users_1 = [];
                 roomUserInfoList.forEach(function (element) {
-                    var usr = new MsRoomUserInfo(element.userId, element.userProfile);
-                    users_1.push(usr);
+                    //	let usr:MsRoomUserInfo = new MsRoomUserInfo(element.userId, element.userProfile);
+                    users_1.push(element);
                 });
                 this.dispatchEvent(new egret.Event(mvs.MsEvent.EVENT_JOINROOM_RSP, false, false, { status: status, userList: users_1, roomInfo: roomInfo }));
                 return;
@@ -1186,6 +1209,8 @@ var Main = (function (_super) {
         var assetAdapter = new AssetAdapter();
         egret.registerImplementation("eui.IAssetAdapter", assetAdapter);
         egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
+        // 跨域请求
+        egret.ImageLoader.crossOrigin = "anonymous";
         this.runGame().catch(function (e) {
             console.log(e);
         });
@@ -1208,7 +1233,8 @@ var Main = (function (_super) {
                         return [4 /*yield*/, platform.getUserInfo()];
                     case 4:
                         userInfo = _a.sent();
-                        console.log(userInfo);
+                        GameData.gameUser.avatar = userInfo.avatar;
+                        GameData.gameUser.name = userInfo.nickname;
                         return [2 /*return*/];
                 }
             });
@@ -1223,13 +1249,13 @@ var Main = (function (_super) {
                         _a.trys.push([0, 4, , 5]);
                         loadingView = new LoadingUI();
                         this.stage.addChild(loadingView);
-                        //await RES.loadConfig("default.res.json", "http://116.196.73.105:80/duckhunt/resource/");
-                        return [4 /*yield*/, RES.loadConfig("default.res.json", "/resource/")];
+                        return [4 /*yield*/, RES.loadConfig("default.res.json", "http://116.196.73.105:80/duckhunt/resource/")];
                     case 1:
-                        //await RES.loadConfig("default.res.json", "http://116.196.73.105:80/duckhunt/resource/");
                         _a.sent();
+                        // await RES.loadConfig("default.res.json", "/resource/");
                         return [4 /*yield*/, this.loadTheme()];
                     case 2:
+                        // await RES.loadConfig("default.res.json", "/resource/");
                         _a.sent();
                         return [4 /*yield*/, RES.loadGroup("preload", 0, loadingView)];
                     case 3:
@@ -1325,9 +1351,12 @@ var PlayerIcon = (function (_super) {
     };
     PlayerIcon.prototype.init = function () {
         this.player1.visible = false;
+        this.player1.mask = this.playerMask;
         this.userInfo = null;
     };
     PlayerIcon.prototype.setData = function (userInfo) {
+        var avatar = userInfo.avatar;
+        this.player1.source = avatar;
         this.player1.visible = true;
         this.userInfo = userInfo;
     };
@@ -1380,7 +1409,7 @@ var RoomPrefab = (function (_super) {
         this.roomname.text = this.msRoomAttribute.roomName;
     };
     RoomPrefab.prototype.joinRoom = function () {
-        var info = { name: GameData.gameUser.name, avatar: GameData.gameUser.avatar };
+        var info = { "id": GameData.gameUser.id, "nickName": GameData.gameUser.name, "avatar": GameData.gameUser.avatar };
         var infostr = JSON.stringify(info);
         mvs.MsEngine.getInstance.joinRoom(this.msRoomAttribute.roomID, infostr);
     };
@@ -1393,6 +1422,7 @@ var RoomUserInfo = (function (_super) {
     function RoomUserInfo() {
         var _this = _super.call(this) || this;
         _this.userid = 0;
+        _this.userProfile = "";
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.addToStage, _this);
         return _this;
     }
@@ -1413,8 +1443,9 @@ var RoomUserInfo = (function (_super) {
         this.kick.addEventListener(egret.TouchEvent.TOUCH_TAP, this.kickPlayer, this);
         this.userid = 0;
     };
-    RoomUserInfo.prototype.setData = function (userid, ownerId) {
+    RoomUserInfo.prototype.setData = function (userid, ownerId, userProfile) {
         this.userid = userid;
+        this.userProfile = userProfile;
         if (this.userid == ownerId) {
             this.type1.visible = true;
             this.type2.visible = false;
@@ -1439,8 +1470,13 @@ var RoomUserInfo = (function (_super) {
         else {
             this.kick.visible = true;
         }
+        var nickname = userProfile.nickName;
+        var avatar = userProfile.avatar;
+        this.username.text = nickname;
+        this.playerIcon.source = avatar;
     };
     RoomUserInfo.prototype.addToStage = function () {
+        this.playerIcon.mask = this.playerMask;
         this.init();
     };
     RoomUserInfo.prototype.kickPlayer = function () {
@@ -1542,7 +1578,7 @@ var uiGame = (function (_super) {
         _this.positionDic = {};
         _this.timeOnEnterFrame = 0;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.addToStage, _this);
-        _this.addEventListener(egret.TimerEvent.ENTER_FRAME, _this.update, _this);
+        _this.addEventListener(egret.Event.REMOVED_FROM_STAGE, _this.removeFromStage, _this);
         return _this;
     }
     ;
@@ -1570,10 +1606,13 @@ var uiGame = (function (_super) {
         this.updateSmallBullet();
         this.image6.alpha = 0;
         this.myscore.visible = false;
+        this.myScoreLabel.text = "0";
         this.playerGun.visible = false;
         this.leftscore.visible = false;
+        this.leftScoreLabel.text = "0";
         this.leftPlayer.visible = false;
         this.rightscore.visible = false;
+        this.rightScoreLabel.text = "0";
         this.rightPlayer.visible = false;
         if (GameData.playerUserIds.length == 1) {
             this.myscore.visible = true;
@@ -1594,30 +1633,39 @@ var uiGame = (function (_super) {
             this.rightscore.visible = true;
         }
         GameData.playerUserIds.sort(function (a, b) {
-            return a - b;
+            return a.id - b.id;
         });
         this.positionDic = {};
-        var index = GameData.playerUserIds.indexOf(GameData.gameUser.id);
+        var index = -1;
+        for (var i = 0; i < GameData.playerUserIds.length; i++) {
+            var id = GameData.playerUserIds[i].id;
+            if (id == GameData.gameUser.id) {
+                index = i;
+                break;
+            }
+        }
         if (index == 0) {
             this.positionDic[GameData.gameUser.id] = "middle";
             if (GameData.maxPlayerNum == 2) {
-                this.positionDic[GameData.playerUserIds[1]] = "left";
+                this.positionDic[GameData.playerUserIds[1].id] = "left";
             }
             else if (GameData.maxPlayerNum == 3) {
-                this.positionDic[GameData.playerUserIds[1]] = "left";
-                this.positionDic[GameData.playerUserIds[2]] = "right";
+                var leftId = GameData.playerUserIds[1].id;
+                this.positionDic[leftId] = "left";
+                var rightId = GameData.playerUserIds[2].id;
+                this.positionDic[rightId] = "right";
             }
         }
         else if (index == 1) {
-            this.positionDic[GameData.playerUserIds[0]] = "left";
+            this.positionDic[GameData.playerUserIds[0].id] = "left";
             this.positionDic[GameData.gameUser.id] = "middle";
             if (GameData.maxPlayerNum == 3) {
-                this.positionDic[GameData.playerUserIds[1]] = "right";
+                this.positionDic[GameData.playerUserIds[2].id] = "right";
             }
         }
         else if (index == 2) {
-            this.positionDic[GameData.playerUserIds[0]] = "left";
-            this.positionDic[GameData.playerUserIds[1]] = "right";
+            this.positionDic[GameData.playerUserIds[0].id] = "left";
+            this.positionDic[GameData.playerUserIds[1].id] = "right";
             this.positionDic[GameData.gameUser.id] = "middle";
         }
         for (var i = 0; i < this.birdList.length; i++) {
@@ -1627,6 +1675,11 @@ var uiGame = (function (_super) {
         var bg = RES.getRes("duckBg_mp3");
         this.bgChannel = bg.play();
         this.addMsResponseListen();
+        this.addEventListener(egret.TimerEvent.ENTER_FRAME, this.update, this);
+    };
+    uiGame.prototype.removeFromStage = function () {
+        this.removeResponseListen();
+        this.removeEventListener(egret.TimerEvent.ENTER_FRAME, this.update, this);
     };
     uiGame.prototype.addMsResponseListen = function () {
         //发送消息
@@ -1634,6 +1687,11 @@ var uiGame = (function (_super) {
         //离开房间
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_LEAVEROOM_NTFY, this.leaveRoomNotify, this);
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_LEAVEROOM_RSP, this.leaveRoomResponse, this);
+        //踢人
+        mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_KICKPLAYER_RSP, this.kickPlayerResponse, this);
+        mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_KICKPLAYER_NTFY, this.kickPlayerNotify, this);
+        mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp, this);
+        mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_NETWORKSTATE_NTFY, this.networkStateNotify, this);
     };
     uiGame.prototype.removeResponseListen = function () {
         //发送消息
@@ -1641,6 +1699,11 @@ var uiGame = (function (_super) {
         //离开房间
         mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LEAVEROOM_NTFY, this.leaveRoomNotify, this);
         mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LEAVEROOM_RSP, this.leaveRoomResponse, this);
+        //踢人
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_KICKPLAYER_RSP, this.kickPlayerResponse, this);
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_KICKPLAYER_NTFY, this.kickPlayerNotify, this);
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp, this);
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_NETWORKSTATE_NTFY, this.networkStateNotify, this);
     };
     uiGame.prototype.onEnter = function (context) {
         this.init();
@@ -1760,7 +1823,7 @@ var uiGame = (function (_super) {
             this.gameStart = false;
             var dic_1 = [];
             for (var i = 0; i < GameData.playerUserIds.length; i++) {
-                var id = GameData.playerUserIds[i];
+                var id = GameData.playerUserIds[i].id;
                 var pos = this.positionDic[id];
                 var score = 0;
                 if (pos == "left") {
@@ -1772,7 +1835,7 @@ var uiGame = (function (_super) {
                 else if (pos == "right") {
                     score = this.rightScore;
                 }
-                var scoreInfo = { userId: id, score: score };
+                var scoreInfo = { userId: id, score: score, profile: GameData.playerUserIds[i] };
                 dic_1.push(scoreInfo);
             }
             dic_1.sort(function (a, b) {
@@ -1791,11 +1854,11 @@ var uiGame = (function (_super) {
     };
     uiGame.prototype.onSlideChange = function () {
         var value = this.rotationController.value;
-        var rotation = 6 * value - 30;
+        var rotation = 3 * value - 15;
         this.playerGun.rotation = rotation;
         var self = this;
-        var userids = [];
-        userids = GameData.playerUserIds;
+        // let userids = [];
+        // userids = GameData.playerUserIds;
         var jsonValue = JSON.stringify({
             action: "updatePositon",
             rotation: self.playerGun.rotation,
@@ -1827,8 +1890,8 @@ var uiGame = (function (_super) {
         if (this.smallBulletNum <= 0) {
             this.playBulletAnimation();
         }
-        var userids = [];
-        userids = GameData.playerUserIds;
+        // let userids = [];
+        // userids = GameData.playerUserIds;
         var value = {
             action: "shoot",
             type: "commonBullet",
@@ -1859,8 +1922,8 @@ var uiGame = (function (_super) {
         this.firedCD = 0.5;
         this.coinNUM--;
         this.updateCoin();
-        var userids = [];
-        userids = GameData.playerUserIds;
+        // let userids = [];
+        // userids = GameData.playerUserIds;
         var value = JSON.stringify({
             action: "shoot",
             type: "plusBullet",
@@ -1985,8 +2048,8 @@ var uiGame = (function (_super) {
         this.bulletNum.text = this.smallBulletNum.toString();
     };
     uiGame.prototype.modifyMyScore = function (score) {
-        var userids = [];
-        userids = GameData.playerUserIds;
+        // let userids = [];
+        // userids = GameData.playerUserIds;
         this.myScore += score;
         this.myScoreLabel.text = this.myScore.toString();
         var self = this;
@@ -2016,6 +2079,71 @@ var uiGame = (function (_super) {
         this.bgChannel.stop();
         ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
     };
+    uiGame.prototype.kickPlayerResponse = function (ev) {
+        if (!this.parent)
+            return;
+        var rsp = ev.data;
+        if (rsp.status != 200)
+            return;
+        var owner = rsp.owner;
+        if (GameData.gameUser.id == rsp.userID) {
+            GameData.isRoomOwner = false;
+            //ContextManager.Instance.uiBack();
+            ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
+        }
+        else {
+            var tip = new uiTip("对手离开了房间");
+            this.addChild(tip);
+        }
+        if (owner == GameData.gameUser.id) {
+            GameData.isRoomOwner = true;
+        }
+    };
+    uiGame.prototype.kickPlayerNotify = function (ev) {
+        if (!this.parent)
+            return;
+        var rsp = ev.data;
+        //	let userID = rsp.userID;
+        var owner = rsp.owner;
+        if (GameData.gameUser.id == rsp.userId) {
+            GameData.isRoomOwner = false;
+            // ContextManager.Instance.uiBack();
+            ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
+        }
+        else {
+            var tip = new uiTip("对手离开了房间");
+            this.addChild(tip);
+        }
+        if (owner == GameData.gameUser.id) {
+            GameData.isRoomOwner = true;
+        }
+    };
+    uiGame.prototype.onErrorRsp = function (ev) {
+        var data = ev.data;
+        var errorCode = data.errCode;
+        if (errorCode == 1001) {
+            var tip = new uiTip("网络断开连接");
+            this.addChild(tip);
+            setTimeout(function () {
+                mvs.MsEngine.getInstance.logOut();
+                ContextManager.Instance.backSpecifiedUI(UIType.loginBoard);
+            }, 5000);
+        }
+    };
+    uiGame.prototype.networkStateNotify = function (ev) {
+        var data = ev.data;
+        var state = data.state;
+        var userID = data.userID;
+        var owner = data.owner;
+        if (state == 1) {
+            // let tip = new uiTip("玩家"+userID+"网络断开连接");
+            // this.addChild(tip);
+            //手动踢出房间
+            mvs.MsEngine.getInstance.kickPlayer(userID, "");
+        }
+        else if (state == 3) {
+        }
+    };
     return uiGame;
 }(BaseView));
 __reflect(uiGame.prototype, "uiGame");
@@ -2037,7 +2165,16 @@ var uiLobby = (function (_super) {
     };
     uiLobby.prototype.addToStage = function () {
         this.username.text = GameData.gameUser.id.toString();
+        this.playerIcon.mask = this.playerIconMask;
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp, this);
+        if (egret.Capabilities.runtimeType == egret.RuntimeType.WXGAME) {
+            this.username.text = GameData.gameUser.name.toString();
+            this.playerIcon.source = GameData.gameUser.avatar;
+        }
+        else {
+            this.username.text = GameData.gameUser.id.toString();
+            this.playerIcon.source = GameData.gameUser.avatar;
+        }
     };
     uiLobby.prototype.leaveStage = function () {
         mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp, this);
@@ -2060,10 +2197,13 @@ var uiLobby = (function (_super) {
         // this.btnClose.icon = "resource/btn-back.png";
         this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, this.closeRank, this);
         var platform = window.platform;
-        //加载资源
-        platform.openDataContext.postMessage({
-            command: 'loadRes'
-        });
+        if (egret.Capabilities.runtimeType == egret.RuntimeType.WXGAME) {
+            var platform_1 = window.platform;
+            // 加载资源
+            platform_1.openDataContext.postMessage({
+                command: 'loadRes'
+            });
+        }
     };
     uiLobby.prototype.onCreateRoomClick = function () {
         ContextManager.Instance.showDialog(UIType.createRoom);
@@ -2166,33 +2306,54 @@ var uiLogin = (function (_super) {
     uiLogin.prototype.addMsResponseListen = function () {
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_REGISTERUSER_RSP, this.registResponse, this);
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_LOGIN_RSP, this.loginResponse, this);
+        mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_INIT_RSP, this.initResponse, this);
     };
     uiLogin.prototype.removeMsResponseListen = function () {
         mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_REGISTERUSER_RSP, this.registResponse, this);
         mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LOGIN_RSP, this.loginResponse, this);
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_INIT_RSP, this.initResponse, this);
     };
-    uiLogin.prototype.onStartClick = function () {
-        mvs.MsEngine.getInstance.registerUser();
+    uiLogin.prototype.initResponse = function (ev) {
+        if (egret.Capabilities.runtimeType == egret.RuntimeType.WXGAME) {
+            this.login().catch(function (e) {
+                console.log(e);
+            });
+        }
+    };
+    uiLogin.prototype.loginResponse = function (ev) {
+        var login = ev.data;
+        if (login.status == 200) {
+            ContextManager.Instance.showUI(UIType.lobbyBoard);
+        }
     };
     uiLogin.prototype.registResponse = function (ev) {
         if (!this.parent)
             return;
         var userInfo = ev.data;
         GameData.gameUser.id = userInfo.id;
-        GameData.gameUser.name = userInfo.name;
-        GameData.gameUser.avatar = userInfo.avatar;
         GameData.gameUser.token = userInfo.token;
+        if (egret.Capabilities.runtimeType != egret.RuntimeType.WXGAME) {
+            GameData.gameUser.name = userInfo.name;
+            GameData.gameUser.avatar = userInfo.avatar;
+        }
         if (userInfo.status == 0) {
             mvs.MsEngine.getInstance.login(userInfo.id, userInfo.token, GameData.gameID, GameData.appkey, GameData.secretKey);
         }
     };
-    uiLogin.prototype.loginResponse = function (ev) {
-        if (!this.parent)
-            return;
-        var login = ev.data;
-        if (login.status == 200) {
-            ContextManager.Instance.showUI(UIType.lobbyBoard);
-        }
+    uiLogin.prototype.onStartClick = function () {
+        mvs.MsEngine.getInstance.registerUser();
+    };
+    uiLogin.prototype.login = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, platform.login()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     return uiLogin;
 }(BaseView));
@@ -2224,7 +2385,7 @@ var uiMatch = (function (_super) {
         this.back.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onBackClick, this);
     };
     uiMatch.prototype.onEnter = function (context) {
-        var info = { name: GameData.gameUser.name, avatar: GameData.gameUser.avatar };
+        var info = { "id": GameData.gameUser.id, "nickName": GameData.gameUser.name, "avatar": GameData.gameUser.avatar };
         var infostr = JSON.stringify(info);
         mvs.MsEngine.getInstance.joinRandomRoom(GameData.maxPlayerNum, infostr);
         while (this.playerIconLayout.numChildren > 0) {
@@ -2266,8 +2427,6 @@ var uiMatch = (function (_super) {
         mvs.MsEngine.getInstance.leaveRoom("");
     };
     uiMatch.prototype.joinRoomResponse = function (event) {
-        if (!this.parent)
-            return;
         var data = event.data;
         var roomInfo = data.roomInfo;
         var roomuserInfoList = data.userList;
@@ -2277,10 +2436,10 @@ var uiMatch = (function (_super) {
         }
         GameData.roomID = roomInfo.roomID;
         this.gameUserList = [];
-        this.gameUserList.push(GameData.gameUser.id);
+        this.gameUserList.push({ "id": GameData.gameUser.id, "nickName": GameData.gameUser.name, "avatar": GameData.gameUser.avatar });
         for (var i = 0; i < roomuserInfoList.length; i++) {
             if (GameData.gameUser.id != roomuserInfoList[i].userId) {
-                this.gameUserList.push(roomuserInfoList[i].userId);
+                this.gameUserList.push(JSON.parse(roomuserInfoList[i].userProfile));
             }
         }
         if (this.gameUserList.length == 1) {
@@ -2289,7 +2448,10 @@ var uiMatch = (function (_super) {
         for (var i = 0; i < this.gameUserList.length; i++) {
             this.playerIcons[i].setData(this.gameUserList[i]);
         }
-        GameData.playerUserIds = this.gameUserList;
+        this.gameUserList.sort(function (a, b) {
+            return a.id - b.id;
+        });
+        GameData.playerUserProfiles = this.gameUserList;
         if (this.gameUserList.length >= GameData.maxPlayerNum) {
             mvs.MsEngine.getInstance.joinOver("");
         }
@@ -2298,21 +2460,33 @@ var uiMatch = (function (_super) {
         if (!this.parent)
             return;
         var data = ev.data;
-        var roomUserInfo = data.userProfile;
-        this.gameUserList.push(roomUserInfo.userId);
+        var userProfileStr = data.userProfile;
+        var userProfile = JSON.parse(userProfileStr);
+        this.gameUserList.push(userProfile);
+        for (var i = 0; i < this.playerIcons.length; i++) {
+            this.playerIcons[i].init();
+        }
         for (var i = 0; i < this.gameUserList.length; i++) {
             this.playerIcons[i].setData(this.gameUserList[i]);
         }
+        this.gameUserList.sort(function (a, b) {
+            return a.id - b.id;
+        });
+        GameData.playerUserProfiles = this.gameUserList;
     };
     uiMatch.prototype.joinOverNotify = function (ev) {
-        if (!this.parent)
-            return;
+        this.gameUserList.sort(function (a, b) {
+            return a - b;
+        });
+        GameData.playerUserIds = this.gameUserList;
         //进入游戏界面
         ContextManager.Instance.showUI(UIType.gameBoard);
     };
     uiMatch.prototype.joinOverResponse = function (ev) {
-        if (!this.parent)
-            return;
+        this.gameUserList.sort(function (a, b) {
+            return a - b;
+        });
+        GameData.playerUserIds = this.gameUserList;
         //进入游戏界面
         ContextManager.Instance.showUI(UIType.gameBoard);
     };
@@ -2367,6 +2541,8 @@ var uiResult = (function (_super) {
     }
     uiResult.prototype.partAdded = function (partName, instance) {
         _super.prototype.partAdded.call(this, partName, instance);
+        this.addEventListener(egret.Event.ADDED_TO_STAGE, this.addToStage, this);
+        this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.removeFromStage, this);
     };
     uiResult.prototype.childrenCreated = function () {
         _super.prototype.childrenCreated.call(this);
@@ -2386,33 +2562,42 @@ var uiResult = (function (_super) {
         this.third.visible = false;
         var platform = window.platform;
         //主域向子域发送自定义消息
-        platform.openDataContext.postMessage({
-            isDisplay: true,
-            text: 'hello',
-            year: (new Date()).getFullYear(),
-            command: "setUserCloudStorage"
-        });
+        // platform.openDataContext.postMessage({
+        // 	isDisplay: true,
+        // 	text: 'hello',
+        // 	year: (new Date()).getFullYear(),
+        // 	command: "setUserCloudStorage"
+        // });
         var dic = context;
         if (dic.length >= 1) {
             var firstValue = dic[0];
-            var firstid = firstValue.userId;
             var firtScore = firstValue.score;
+            var firstPorfile = firstValue.profile;
+            var firstid = firstPorfile.nickName;
+            var firstAvatar = firstPorfile.avatar;
             this.firstId.text = firstid;
             this.firstScore.text = firtScore;
+            this.firstAvatar.source = firstAvatar;
             this.first.visible = true;
             if (dic.length >= 2) {
                 var secondValue = dic[1];
-                var secondid = secondValue.userId;
                 var secondScore = secondValue.score;
+                var secondPorfile = secondValue.profile;
+                var secondAvatar = secondPorfile.avatar;
+                var secondid = secondPorfile.nickName;
                 this.secondId.text = secondid;
                 this.secondScore.text = secondScore;
+                this.secondAvatar.source = secondAvatar;
                 this.second.visible = true;
                 if (dic.length >= 3) {
                     var thirdValue = dic[2];
-                    var thirdid = thirdValue.userId;
                     var thirdScore = thirdValue.score;
+                    var thirdPorfile = thirdValue.profile;
+                    var thirdAvatar = thirdPorfile.avatar;
+                    var thirdid = thirdPorfile.nickName;
                     this.thirdId.text = thirdid;
                     this.thirdScore.text = thirdScore;
+                    this.thirdAvatar.source = thirdAvatar;
                     this.third.visible = true;
                 }
             }
@@ -2430,6 +2615,7 @@ var uiResult = (function (_super) {
         this.back.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onBackClick, this);
     };
     uiResult.prototype.onBackClick = function () {
+        GameData.isRoomOwner = false;
         mvs.MsEngine.getInstance.leaveRoom("");
         ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
     };
@@ -2457,6 +2643,7 @@ var uiRoom = (function (_super) {
         _this.roomInfo = null;
         _this.ownerid = 0;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.addToStage, _this);
+        _this.addEventListener(egret.Event.REMOVED_FROM_STAGE, _this.removeFromStage, _this);
         return _this;
     }
     uiRoom.prototype.partAdded = function (partName, instance) {
@@ -2479,6 +2666,7 @@ var uiRoom = (function (_super) {
         else {
             var roomUserInfoList = context[1];
             var roominfo = context[2];
+            GameData.isRoomOwner = false;
             this.joinRoomInit(roomUserInfoList, roominfo);
             this.refreshStartBtn();
         }
@@ -2508,6 +2696,7 @@ var uiRoom = (function (_super) {
         //发送消息
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_SENDEVENT_NTFY, this.sendEventNotify, this);
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp, this);
+        mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_NETWORKSTATE_NTFY, this.networkStateNotify, this);
     };
     uiRoom.prototype.removeMsResponseListen = function () {
         //加入房间
@@ -2524,6 +2713,7 @@ var uiRoom = (function (_super) {
         //发送消息
         mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_SENDEVENT_NTFY, this.sendEventNotify, this);
         mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp, this);
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_NETWORKSTATE_NTFY, this.networkStateNotify, this);
     };
     uiRoom.prototype.addToStage = function () {
         while (this.roomUserGroup.numChildren > 0) {
@@ -2538,7 +2728,7 @@ var uiRoom = (function (_super) {
         this.addMsResponseListen();
     };
     uiRoom.prototype.removeFromStage = function () {
-        this.removeFromStage();
+        this.removeMsResponseListen();
     };
     uiRoom.prototype.joinRoomInit = function (roomUserInfoList, roomInfo) {
         roomUserInfoList.sort(function (a, b) {
@@ -2549,18 +2739,20 @@ var uiRoom = (function (_super) {
         });
         roomUserInfoList.push({
             userId: GameData.gameUser.id,
-            userProfile: ""
+            userProfile: JSON.stringify({ "id": GameData.gameUser.id, "nickName": GameData.gameUser.name, "avatar": GameData.gameUser.avatar })
         });
         this.ownerid = roomInfo.ownerId;
         for (var j = 0; j < roomUserInfoList.length; j++) {
-            this.players[j].setData(roomUserInfoList[j].userId, this.ownerid);
+            var userProfileStr = roomUserInfoList[j].userProfile;
+            var userProfile = JSON.parse(userProfileStr);
+            this.players[j].setData(roomUserInfoList[j].userId, this.ownerid, userProfile);
         }
         this.refreshStartBtn();
     };
     uiRoom.prototype.createRoomInit = function (rsp) {
         this.roomid = rsp.roomID;
         this.ownerid = rsp.owner;
-        this.players[0].setData(this.ownerid, this.ownerid);
+        this.players[0].setData(this.ownerid, this.ownerid, { "id": GameData.gameUser.id, "nickName": GameData.gameUser.name, "avatar": GameData.gameUser.avatar });
         GameData.isRoomOwner = true;
         this.refreshStartBtn();
     };
@@ -2586,7 +2778,7 @@ var uiRoom = (function (_super) {
         for (var j = 0; j < this.players.length; j++) {
             if (this.players[j].userid != 0) {
                 playerCnt++;
-                userIds.push(this.players[j].userid);
+                userIds.push(this.players[j].userProfile);
             }
         }
         if (playerCnt === GameData.maxPlayerNum) {
@@ -2610,7 +2802,7 @@ var uiRoom = (function (_super) {
             return;
         GameData.isRoomOwner = false;
         // ContextManager.Instance.uiBack();
-        ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
+        ContextManager.Instance.uiBack();
     };
     uiRoom.prototype.leaveRoomNotify = function (ev) {
         if (!this.parent)
@@ -2627,8 +2819,8 @@ var uiRoom = (function (_super) {
             GameData.isRoomOwner = true;
         }
         for (var i = 0; i < this.players.length; i++) {
-            if (this.players[i].userid !== 0) {
-                this.players[i].setData(this.players[i].userid, this.ownerid);
+            if (this.players[i].userid != 0) {
+                this.players[i].setData(this.players[i].userid, this.ownerid, this.players[i].userProfile);
             }
         }
         this.refreshStartBtn();
@@ -2637,48 +2829,73 @@ var uiRoom = (function (_super) {
         if (!this.parent)
             return;
         var rsp = ev.data;
+        var owner = rsp.owner;
         for (var j = 0; j < this.players.length; j++) {
             if (this.players[j].userid === rsp.userID) {
                 this.players[j].init();
                 break;
             }
         }
-        if (GameData.gameUser.id === rsp.userID) {
+        if (GameData.gameUser.id == rsp.userID) {
             GameData.isRoomOwner = false;
             //ContextManager.Instance.uiBack();
             ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
         }
+        this.ownerid = owner;
+        if (owner == GameData.gameUser.id) {
+            GameData.isRoomOwner = true;
+        }
+        for (var i = 0; i < this.players.length; i++) {
+            if (this.players[i].userid != 0) {
+                this.players[i].setData(this.players[i].userid, this.ownerid, this.players[i].userProfile);
+            }
+        }
+        this.refreshStartBtn();
     };
     uiRoom.prototype.kickPlayerNotify = function (ev) {
         if (!this.parent)
             return;
         var rsp = ev.data;
+        var userID = rsp.userID;
+        var owner = rsp.owner;
         for (var j = 0; j < this.players.length; j++) {
-            if (this.players[j].userid === rsp.userId) {
+            if (this.players[j].userid == rsp.userId) {
                 this.players[j].init();
                 break;
             }
         }
-        if (GameData.gameUser.id === rsp.userId) {
+        if (GameData.gameUser.id == rsp.userId) {
             GameData.isRoomOwner = false;
             // ContextManager.Instance.uiBack();
             ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
         }
+        if (owner == GameData.gameUser.id) {
+            GameData.isRoomOwner = true;
+        }
+        for (var i = 0; i < this.players.length; i++) {
+            if (this.players[i].userid != 0) {
+                this.players[i].setData(this.players[i].userid, this.ownerid, this.players[i].userProfile);
+            }
+        }
+        this.refreshStartBtn();
     };
     uiRoom.prototype.joinRoomResponse = function (ev) {
         if (!this.parent)
             return;
         var rsp = ev.data;
         GameData.isRoomOwner = false;
+        ContextManager.Instance.uiBack();
         //ContextManager.Instance.uiBack();
     };
     uiRoom.prototype.joinRoomNotify = function (ev) {
         if (!this.parent)
             return;
         var roomUserInfo = ev.data;
+        var userProfile = roomUserInfo.userProfile;
+        var profile = JSON.parse(userProfile);
         for (var j = 0; j < this.players.length; j++) {
-            if (this.players[j].userid === 0) {
-                this.players[j].setData(roomUserInfo.userId, this.ownerid);
+            if (this.players[j].userid == 0) {
+                this.players[j].setData(roomUserInfo.userId, this.ownerid, profile);
                 break;
             }
         }
@@ -2701,7 +2918,7 @@ var uiRoom = (function (_super) {
                 var userIds = [];
                 for (var j = 0; j < this.players.length; j++) {
                     if (this.players[j].userid != 0) {
-                        userIds.push(this.players[j].userid);
+                        userIds.push(this.players[j].userProfile);
                     }
                 }
                 GameData.playerUserIds = userIds;
@@ -2719,6 +2936,20 @@ var uiRoom = (function (_super) {
                 mvs.MsEngine.getInstance.logOut();
                 ContextManager.Instance.backSpecifiedUI(UIType.loginBoard);
             }, 5000);
+        }
+    };
+    uiRoom.prototype.networkStateNotify = function (ev) {
+        var data = ev.data;
+        var state = data.state;
+        var userID = data.userID;
+        var owner = data.owner;
+        if (state == 1) {
+            // let tip = new uiTip("玩家"+userID+"网络断开连接");
+            // this.addChild(tip);
+            //手动踢出房间
+            mvs.MsEngine.getInstance.kickPlayer(userID, "");
+        }
+        else if (state == 3) {
         }
     };
     return uiRoom;
@@ -2749,6 +2980,7 @@ var uiRoomList = (function (_super) {
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_JOINROOM_RSP, this.joinRoomResponse, this);
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_GETROOMLIST_RSP, this.getRoomListExResponse, this);
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp, this);
+        this.roomIDInput.text = "";
     };
     uiRoomList.prototype.removeFromStage = function () {
         mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_GETROOMLIST_EX_RSP, this.getRoomListResponse, this);
@@ -2830,9 +3062,9 @@ var uiRoomList = (function (_super) {
         }
         else {
             for (var i = 0; i < this.roomGroup.numChildren; i++) {
-                var room = this.roomGroup[i];
-                if (room.roomId.text == this.roomIDInput.text) {
-                    this.roomGroup.removeChild(this.roomGroup[i]);
+                var room = this.roomGroup.getChildAt(i);
+                if (room.roomId.text != this.roomIDInput.text) {
+                    this.roomGroup.removeChild(room);
                 }
             }
         }

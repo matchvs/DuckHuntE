@@ -133,7 +133,7 @@ class uiRoom extends BaseView {
 
 	private removeFromStage()
 	{
-		this.removeFromStage();
+		this.removeMsResponseListen();
 	}
 
 	private joinRoomInit(roomUserInfoList, roomInfo)
@@ -397,8 +397,8 @@ class uiRoom extends BaseView {
 		let owner = data.owner;
 		if(state == 1)
 		{
-			let tip = new uiTip("玩家"+userID+"网络断开连接");
-			this.addChild(tip);
+			// let tip = new uiTip("玩家"+userID+"网络断开连接");
+			// this.addChild(tip);
 
 			//手动踢出房间
 			mvs.MsEngine.getInstance.kickPlayer(userID,"");

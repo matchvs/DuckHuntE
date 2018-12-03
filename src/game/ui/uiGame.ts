@@ -393,7 +393,7 @@ class uiGame extends BaseView {
 	private onSlideChange()
 	{
 		let value = this.rotationController.value;
-		let rotation = 6*value - 30;
+		let rotation = 3*value - 15;
 		this.playerGun.rotation = rotation;
 
 		let self = this;
@@ -724,7 +724,6 @@ class uiGame extends BaseView {
 	{
 		let data = ev.data;
 		let state = data.state;
-		console.log("输出的结果为: " + state);
 		let userID = data.userID;
 		let owner = data.owner;
 		if(state == 1)
