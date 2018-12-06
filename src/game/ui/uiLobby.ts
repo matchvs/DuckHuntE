@@ -36,7 +36,7 @@ class uiLobby extends BaseView {
 			this.username.text = GameData.gameUser.name.toString();
 			this.playerIcon.source = GameData.gameUser.avatar
 		}else{
-			this.username.text = GameData.gameUser.id.toString();
+			this.username.text = GameData.gameUser.name.toString();
 			this.playerIcon.source = GameData.gameUser.avatar
 		}
 	}
