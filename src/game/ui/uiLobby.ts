@@ -12,7 +12,7 @@ class uiLobby extends BaseView {
 	public constructor() {
 		super();
 		this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addToStage,this);
-		this.addEventListener(egret.Event.LEAVE_STAGE,this.leaveStage,this);
+		this.addEventListener(egret.Event.REMOVED_FROM_STAGE,this.leaveStage,this);
 	}
 
 	protected partAdded(partName:string,instance:any):void
@@ -114,8 +114,7 @@ class uiLobby extends BaseView {
 			let tip = new uiTip("网络断开连接");
 			this.addChild(tip);
 			setTimeout(function() {
-				mvs.MsEngine.getInstance.logOut();
-				ContextManager.Instance.backSpecifiedUI(UIType.loginBoard);
+					ContextManager.Instance.uiBackMain();
 			}, 5000);
 		}
 	}

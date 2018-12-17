@@ -35,7 +35,6 @@ class uiRoom extends BaseView {
 			this.roomid = rsp.roomID;
 			this.ownerid = rsp.owner;
 			GameData.isRoomOwner = true;
-			this.refreshStartBtn();
 			this.createRoomInit(rsp);
 		}else{
 			let roomUserInfoList = context[1];
@@ -68,9 +67,9 @@ class uiRoom extends BaseView {
 	}
 
 	 private addMsResponseListen(){
-		 //加入房间
-        mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_JOINROOM_RSP, this.joinRoomResponse,this);
-        mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_JOINROOM_NTFY, this.joinRoomNotify,this);
+		//  //加入房间
+        // mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_JOINROOM_RSP, this.joinRoomResponse,this);
+        // mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_JOINROOM_NTFY, this.joinRoomNotify,this);
 
         //离开房间
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_LEAVEROOM_RSP, this.leaveRoomResponse,this);
@@ -84,7 +83,7 @@ class uiRoom extends BaseView {
 		mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_JOINOVER_NTFY, this.joinOverNotify,this);
 
 		//发送消息
-        mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_SENDEVENT_NTFY, this.sendEventNotify,this);
+        //mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_SENDEVENT_NTFY, this.sendEventNotify,this);
 
 		mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp,this);
 		mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_NETWORKSTATE_NTFY,this.networkStateNotify,this);
@@ -92,9 +91,9 @@ class uiRoom extends BaseView {
 
 	private removeMsResponseListen()
 	{
-			 //加入房间
-        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINROOM_RSP, this.joinRoomResponse,this);
-        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINROOM_NTFY, this.joinRoomNotify,this);
+		// 	 //加入房间
+        // mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINROOM_RSP, this.joinRoomResponse,this);
+        // mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINROOM_NTFY, this.joinRoomNotify,this);
 
         //离开房间
         mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LEAVEROOM_RSP, this.leaveRoomResponse,this);
@@ -106,9 +105,6 @@ class uiRoom extends BaseView {
 
 		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINOVER_RSP, this.joinOverResponse,this);
 		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINOVER_NTFY, this.joinOverNotify,this);
-
-		//发送消息
-        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_SENDEVENT_NTFY, this.sendEventNotify,this);
 
 		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_ERROR_RSP, this.onErrorRsp,this);
 		mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_NETWORKSTATE_NTFY,this.networkStateNotify,this);
@@ -139,7 +135,7 @@ class uiRoom extends BaseView {
 	private joinRoomInit(roomUserInfoList, roomInfo)
 	{
 		 roomUserInfoList.sort(function(a, b) {
-            if (roomInfo.ownerId === b.userId) {
+            if (roomInfo.ownerId == b.userId) {
                 return 1;
             }
             return 0;
@@ -209,10 +205,10 @@ class uiRoom extends BaseView {
 
             GameData.playerUserIds = userIds;
 
-			let value = JSON.stringify({
-				action:"gamestart",
-			})
-			mvs.MsEngine.getInstance.sendEvent(value);
+			// let value = JSON.stringify({
+			// 	action:"gamestart",
+			// })
+			// mvs.MsEngine.getInstance.sendEvent(value);
         } else {
 			let tip = new uiTip("房间人数不足");
 			this.addChild(tip);
@@ -233,8 +229,8 @@ class uiRoom extends BaseView {
 		if(!this.parent)
 			return;
 		
-		let tip = new uiTip("对手离开了房间");
-		this.addChild(tip);
+		// let tip = new uiTip("对手离开了房间");
+		// this.addChild(tip);
 
 		let leaveRoomInfo = ev.data;
 		for (var j = 0; j < this.players.length; j++) {
@@ -257,8 +253,6 @@ class uiRoom extends BaseView {
 
 	private kickPlayerResponse(ev:egret.Event)
 	{
-		if(!this.parent)
-			return;
 		let rsp = ev.data;
 		let owner = rsp.owner;
 		for (var j = 0; j < this.players.length; j++) {
@@ -272,8 +266,8 @@ class uiRoom extends BaseView {
 			//ContextManager.Instance.uiBack();
 			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
         }else{
-			let tip = new uiTip("对手离开了房间");
-			this.addChild(tip);
+			// let tip = new uiTip("对手离开了房间");
+			// this.addChild(tip);
 		}
 
 		this.ownerid = owner;
@@ -292,8 +286,6 @@ class uiRoom extends BaseView {
 
 	private kickPlayerNotify(ev:egret.Event)
 	{
-		if(!this.parent)
-			return;
 		let rsp = ev.data;
 		let userID = rsp.userID;
 		let owner = rsp.owner;
@@ -309,8 +301,8 @@ class uiRoom extends BaseView {
 			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
         }else
 		{
-			let tip = new uiTip("对手离开了房间");
-			this.addChild(tip);
+			// let tip = new uiTip("对手离开了房间");
+			// this.addChild(tip);
 		}
 
 		if(owner == GameData.gameUser.id)
@@ -326,63 +318,55 @@ class uiRoom extends BaseView {
       	this.refreshStartBtn();
 	}
 
-	private joinRoomResponse(ev:egret.Event)
-	{
-		if(!this.parent)
-			return;
-		let rsp = ev.data;
-		GameData.isRoomOwner = false;
-		ContextManager.Instance.uiBack();
-		//ContextManager.Instance.uiBack();
-	}
+	// private joinRoomResponse(ev:egret.Event)
+	// {
+	// 	let rsp = ev.data;
+	// 	// GameData.isRoomOwner = false;
+	// 	//ContextManager.Instance.uiBack();
+	// }
 
-	private joinRoomNotify(ev:egret.Event)
-	{
-		if(!this.parent)
-			return;
-		let roomUserInfo = ev.data;
-		let userProfile = roomUserInfo.userProfile;
-		let profile = JSON.parse(userProfile);
-		 for (var j = 0; j < this.players.length; j++) {
-            if (this.players[j].userid == 0) {
-                 this.players[j].setData(roomUserInfo.userId, this.ownerid,profile);
-                break;
-            }
-        }
-	}
+	// private joinRoomNotify(ev:egret.Event)
+	// {
+	// 	let roomUserInfo = ev.data;
+	// 	let userProfile = roomUserInfo.userProfile;
+	// 	let profile = JSON.parse(userProfile);
+	// 	 for (var j = 0; j < this.players.length; j++) {
+    //         if (this.players[j].userid == 0) {
+    //              this.players[j].setData(roomUserInfo.userId, this.ownerid,profile);
+    //             break;
+    //         }
+    //     }
+	// }
 
 	private joinOverResponse(ev:egret.Event)
 	{
-		if(!this.parent)
-			return;
 		ContextManager.Instance.showUI(UIType.gameBoard);
 	}
 
 	private joinOverNotify(ev:egret.Event)
 	{
-		if(!this.parent)
-			return;
+		ContextManager.Instance.showUI(UIType.gameBoard);
 	}
 
-	private sendEventNotify(event:egret.Event)
-	{
-		if(!this.parent)
-			return;
-		let sdnotify = event.data;
-		if(sdnotify && sdnotify.cpProto){
-			if(sdnotify.cpProto.indexOf("gamestart") >= 0)
-			{
-				var userIds = [];
-				for (var j = 0; j < this.players.length; j++) {
-					if (this.players[j].userid != 0) {
-						userIds.push(this.players[j].userProfile);
-					}
-				}
-				GameData.playerUserIds = userIds;
-				ContextManager.Instance.showUI(UIType.gameBoard);
-			}
-		}
-	}
+	// private sendEventNotify(event:egret.Event)
+	// {
+	// 	if(!this.parent)
+	// 		return;
+	// 	let sdnotify = event.data;
+	// 	if(sdnotify && sdnotify.cpProto){
+	// 		// if(sdnotify.cpProto.indexOf("gamestart") >= 0)
+	// 		// {
+	// 		// 	var userIds = [];
+	// 		// 	for (var j = 0; j < this.players.length; j++) {
+	// 		// 		if (this.players[j].userid != 0) {
+	// 		// 			userIds.push(this.players[j].userProfile);
+	// 		// 		}
+	// 		// 	}
+	// 		// 	GameData.playerUserIds = userIds;
+	// 		// 	ContextManager.Instance.showUI(UIType.gameBoard);
+	// 		// }
+	// 	}
+	// }
 
 	
 	private onErrorRsp(ev:egret.Event)
@@ -394,8 +378,7 @@ class uiRoom extends BaseView {
 			let tip = new uiTip("网络断开连接");
 			this.addChild(tip);
 			setTimeout(function() {
-				mvs.MsEngine.getInstance.logOut();
-				ContextManager.Instance.backSpecifiedUI(UIType.loginBoard);
+					ContextManager.Instance.uiBackMain();
 			}, 5000);
 		}
 	}
@@ -408,8 +391,8 @@ class uiRoom extends BaseView {
 		let owner = data.owner;
 		if(state == 1)
 		{
-			// let tip = new uiTip("玩家"+userID+"网络断开连接");
-			// this.addChild(tip);
+			let tip = new uiTip("玩家"+userID+"网络断开连接");
+			this.addChild(tip);
 
 			//手动踢出房间
 			mvs.MsEngine.getInstance.kickPlayer(userID,"");

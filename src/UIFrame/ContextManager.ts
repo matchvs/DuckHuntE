@@ -1,7 +1,6 @@
 class ContextManager {
 	private uilist :Array<BaseView> = new Array();
 	private dialogList: Array<BaseView> = new Array();
-
 	private static _instance : ContextManager;
 	private stage:eui.UILayer;
 	private currentUI:egret.DisplayObjectContainer;
@@ -37,7 +36,8 @@ class ContextManager {
 
 	public uiBack():void
 	{
-		if(this.currentUI == null) return;
+		if(this.currentUI == null) 
+			return;
 		this.uiPop();
 	}
 

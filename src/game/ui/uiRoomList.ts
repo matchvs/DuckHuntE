@@ -166,8 +166,7 @@ class uiRoomList extends BaseView {
 			let tip = new uiTip("网络断开连接");
 			this.addChild(tip);
 			setTimeout(function() {
-				mvs.MsEngine.getInstance.logOut();
-				ContextManager.Instance.backSpecifiedUI(UIType.loginBoard);
+				ContextManager.Instance.uiBackMain();
 			}, 5000);
 		}
 	}
