@@ -82,13 +82,16 @@ class uiGame extends BaseView {
 
 		this.image6.alpha = 0;
 		this.myscore.visible = false;
-		this.myScoreLabel.text = "0";
+		this.myScore = 0;
+		this.myScoreLabel.text = this.myScore.toString();
 		this.playerGun.visible =false;
 		this.leftscore.visible = false;
-		this.leftScoreLabel.text = "0";
+		this.leftScore = 0;
+		this.leftScoreLabel.text = this.leftScore.toString();
 		this.leftPlayer.visible =false;
 		this.rightscore.visible = false;
-		this.rightScoreLabel.text = "0"
+		this.rightScore = 0;
+		this.rightScoreLabel.text = this.rightScore.toString();
 		this.rightPlayer.visible =false;
 		if(GameData.playerUserIds.length == 1)
 		{
@@ -251,9 +254,6 @@ class uiGame extends BaseView {
 
 		this.time = 60;
 		this.updateTime();
-
-		this.myScore = 0;
-		this.myScoreLabel.text = this.myScore + "";
 
 		this.rotationController.value = 5;
 		this.onSlideChange();
@@ -659,8 +659,6 @@ class uiGame extends BaseView {
 
 	private kickPlayerResponse(ev:egret.Event)
 	{
-		if(!this.parent)
-			return;
 		let rsp = ev.data;
 		if(rsp.status != 200)
 			return;
@@ -668,7 +666,6 @@ class uiGame extends BaseView {
 	
         if (GameData.gameUser.id == rsp.userID) {
             GameData.isRoomOwner = false;
-			//ContextManager.Instance.uiBack();
 			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
         }else{
 			let tip = new uiTip("对手离开了游戏");
@@ -691,8 +688,7 @@ class uiGame extends BaseView {
 
         if (GameData.gameUser.id == rsp.userId) {
             GameData.isRoomOwner = false;
-			// ContextManager.Instance.uiBack();
-			ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard);
+			ContextManager.Instance.uiBackMain();
         }else
 		{
 			let tip = new uiTip("对手离开了游戏");
@@ -705,6 +701,15 @@ class uiGame extends BaseView {
 		}
 	}
 
+	private clearAllBird()
+	{
+		for(let i=0;i<this.birdList.length;i++)
+		{
+			this.removeChild(this.birdList[i]);
+		}
+		this.birdList=[];
+	}
+
 	private onErrorRsp(ev:egret.Event)
 	{
 		let data = ev.data;
@@ -713,9 +718,13 @@ class uiGame extends BaseView {
 		{
 			let tip = new uiTip("网络断开连接");
 			this.addChild(tip);
+
+			this.gameStart = false;
+			this.bgChannel.stop();		
+			let self = this;	
 			setTimeout(function() {
-				mvs.MsEngine.getInstance.logOut();
-				ContextManager.Instance.backSpecifiedUI(UIType.loginBoard);
+				self.clearAllBird();
+				ContextManager.Instance.uiBackMain();
 			}, 5000);
 		}
 	}

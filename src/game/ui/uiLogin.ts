@@ -3,7 +3,7 @@ class uiLogin extends BaseView {
 	public constructor() {
 		super();
 		this.addEventListener(egret.Event.ADDED_TO_STAGE,this.addToStage,this);
-		this.addEventListener(egret.Event.LEAVE_STAGE,this.leaveToStage,this);
+		this.addEventListener(egret.Event.REMOVED_FROM_STAGE,this.leaveToStage,this);
 	}
 
 	protected partAdded(partName:string,instance:any):void
@@ -69,8 +69,6 @@ class uiLogin extends BaseView {
 
 	private registResponse(ev:egret.Event)
 	{
-		if(!this.parent)
-			return;
 		let userInfo = ev.data;
         GameData.gameUser.id = userInfo.id;
         GameData.gameUser.token = userInfo.token;

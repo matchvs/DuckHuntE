@@ -137,8 +137,6 @@ class uiMatch extends BaseView {
 	}
 
 	private joinRoomNotify(ev:egret.Event) {
-		if(!this.parent)
-			return;
 		let data = ev.data;
 		let userProfileStr = data.userProfile;
 		let userProfile = JSON.parse(userProfileStr);
@@ -221,8 +219,7 @@ class uiMatch extends BaseView {
 			let tip = new uiTip("网络断开连接");
 			this.addChild(tip);
 			setTimeout(function() {
-				mvs.MsEngine.getInstance.logOut();
-				ContextManager.Instance.backSpecifiedUI(UIType.loginBoard);
+					ContextManager.Instance.uiBackMain();
 			}, 5000);
 		}
 	}
