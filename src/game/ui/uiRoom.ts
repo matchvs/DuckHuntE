@@ -67,9 +67,9 @@ class uiRoom extends BaseView {
 	}
 
 	 private addMsResponseListen(){
-		//  //加入房间
-        // mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_JOINROOM_RSP, this.joinRoomResponse,this);
-        // mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_JOINROOM_NTFY, this.joinRoomNotify,this);
+		 //加入房间
+        mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_JOINROOM_RSP, this.joinRoomResponse,this);
+        mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_JOINROOM_NTFY, this.joinRoomNotify,this);
 
         //离开房间
         mvs.MsResponse.getInstance.addEventListener(mvs.MsEvent.EVENT_LEAVEROOM_RSP, this.leaveRoomResponse,this);
@@ -91,9 +91,9 @@ class uiRoom extends BaseView {
 
 	private removeMsResponseListen()
 	{
-		// 	 //加入房间
-        // mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINROOM_RSP, this.joinRoomResponse,this);
-        // mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINROOM_NTFY, this.joinRoomNotify,this);
+			 //加入房间
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINROOM_RSP, this.joinRoomResponse,this);
+        mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_JOINROOM_NTFY, this.joinRoomNotify,this);
 
         //离开房间
         mvs.MsResponse.getInstance.removeEventListener(mvs.MsEvent.EVENT_LEAVEROOM_RSP, this.leaveRoomResponse,this);
@@ -152,6 +152,14 @@ class uiRoom extends BaseView {
 			let userProfile = JSON.parse(userProfileStr);
             this.players[j].setData(roomUserInfoList[j].userId, this.ownerid,userProfile);
         }
+
+		var userIds = [];
+		for (var j = 0; j < this.players.length; j++) {
+            if (this.players[j].userid != 0) {
+                userIds.push(this.players[j].userProfile);
+            }
+        }
+		 GameData.playerUserIds = userIds;
         this.refreshStartBtn();
 	}
 
@@ -161,6 +169,13 @@ class uiRoom extends BaseView {
 		this.ownerid = rsp.owner;
 		this.players[0].setData(this.ownerid,this.ownerid,{"id":GameData.gameUser.id,"nickName":GameData.gameUser.name,"avatar":GameData.gameUser.avatar});
 		GameData.isRoomOwner = true;
+		var userIds = [];
+		for (var j = 0; j < this.players.length; j++) {
+            if (this.players[j].userid != 0) {
+                userIds.push(this.players[j].userProfile);
+            }
+        }
+		 GameData.playerUserIds = userIds;
 		this.refreshStartBtn();
 	}
 
@@ -188,12 +203,10 @@ class uiRoom extends BaseView {
 		{
 			//不是房主等待房间开始
 		}
-		var userIds = [];
 		var playerCnt = 0;
 		for (var j = 0; j < this.players.length; j++) {
             if (this.players[j].userid != 0) {
                 playerCnt++;
-                userIds.push(this.players[j].userProfile);
             }
         }
 
@@ -202,8 +215,6 @@ class uiRoom extends BaseView {
             if (result !== 0) {
                 console.log("关闭房间失败，错误码：", result);
             }
-
-            GameData.playerUserIds = userIds;
 
 			// let value = JSON.stringify({
 			// 	action:"gamestart",
@@ -318,25 +329,34 @@ class uiRoom extends BaseView {
       	this.refreshStartBtn();
 	}
 
-	// private joinRoomResponse(ev:egret.Event)
-	// {
-	// 	let rsp = ev.data;
-	// 	// GameData.isRoomOwner = false;
-	// 	//ContextManager.Instance.uiBack();
-	// }
+	private joinRoomResponse(ev:egret.Event)
+	{
+		let rsp = ev.data;
 
-	// private joinRoomNotify(ev:egret.Event)
-	// {
-	// 	let roomUserInfo = ev.data;
-	// 	let userProfile = roomUserInfo.userProfile;
-	// 	let profile = JSON.parse(userProfile);
-	// 	 for (var j = 0; j < this.players.length; j++) {
-    //         if (this.players[j].userid == 0) {
-    //              this.players[j].setData(roomUserInfo.userId, this.ownerid,profile);
-    //             break;
-    //         }
-    //     }
-	// }
+		// GameData.isRoomOwner = false;
+		//ContextManager.Instance.uiBack();
+	}
+
+	private joinRoomNotify(ev:egret.Event)
+	{
+		let roomUserInfo = ev.data;
+		let userProfile = roomUserInfo.userProfile;
+		let profile = JSON.parse(userProfile);
+		 for (var j = 0; j < this.players.length; j++) {
+            if (this.players[j].userid == 0) {
+                 this.players[j].setData(roomUserInfo.userId, this.ownerid,profile);
+                break;
+            }
+        }
+
+		var userIds = [];
+		for (var j = 0; j < this.players.length; j++) {
+            if (this.players[j].userid != 0) {
+                userIds.push(this.players[j].userProfile);
+            }
+        }
+		 GameData.playerUserIds = userIds;
+	}
 
 	private joinOverResponse(ev:egret.Event)
 	{

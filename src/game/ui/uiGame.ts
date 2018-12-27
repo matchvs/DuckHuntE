@@ -61,16 +61,17 @@ class uiGame extends BaseView {
 	}
 	
 	private bgChannel:egret.SoundChannel;
+	private ready;
 	private addToStage()
 	{
 		let self = this;
 		this.duckGuids.play(0);
-		setTimeout(function() {
+	   setTimeout(function() {
 			self.readyGo.play(0);
 			var sound:egret.Sound = RES.getRes("readygo_mp3");
   			sound.play(0,1);
 		}, 5000);
-		setTimeout(function() {
+		this.ready=setTimeout(function() {
 			self.gameStart = true;
 			self.timeOnEnterFrame = egret.getTimer();
 		}, 8000);
@@ -652,6 +653,7 @@ class uiGame extends BaseView {
 
 	private leaveRoomResponse()
 	{
+		clearTimeout(this.ready);
 		this.gameStart = false;
 		this.bgChannel.stop();
 		ContextManager.Instance.backSpecifiedUI(UIType.lobbyBoard)
@@ -718,7 +720,7 @@ class uiGame extends BaseView {
 		{
 			let tip = new uiTip("网络断开连接");
 			this.addChild(tip);
-
+			clearTimeout(this.ready);
 			this.gameStart = false;
 			this.bgChannel.stop();		
 			let self = this;	
