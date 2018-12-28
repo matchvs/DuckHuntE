@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="uiGameSkin" width="1280" height="720" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*" xmlns:tween="egret.tween.*" >
+<e:Skin class="uiGameSkin" width="1334" height="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*" xmlns:tween="egret.tween.*" >
 	<w:Declarations>
 		<tween:TweenGroup id="duckGuids">
 			<tween:TweenItem target="{image}">
@@ -194,20 +194,20 @@
 		</tween:TweenGroup>
 	</w:Declarations>
 	<w:Config id="164658546ab" ></w:Config>
-	<e:Image source="beijing_png" x="-2" anchorOffsetX="0" width="1320"/>
-	<e:Image source="dimian_png" x="-1" y="493"/>
-	<e:Image source="shuiyin_png" x="0" y="699"/>
-	<e:Group x="525.74" y="36.09">
+	<e:Image source="beijing_png" anchorOffsetX="0" width="1334" height="750"/>
+	<e:Image source="dimian_png" x="0" y="531" width="1334"/>
+	<e:Image source="shuiyin_png" x="45.45" y="723.24"/>
+	<e:Group x="565.13" y="36.09">
 		<e:Image source="duckClock_png" x="0" y="0"/>
 		<e:Label id="timer" text="60" x="63.91" y="1.91" anchorOffsetY="0" height="52" anchorOffsetX="0" width="53.7" fontFamily="Microsoft JhengHei" verticalAlign="middle" textAlign="left" size="36" textColor="0x5e5c58" bold="true"/>
 		<e:Image source="s_png" x="109.91" y="18.91"/>
 	</e:Group>
-	<e:Group x="1028.6" y="51.28">
+	<e:Group x="1122.53" y="36.13">
 		<e:Image source="jinbi_png" x="0" y="0"/>
 		<e:Image source="×_png" x="56" y="13.38"/>
 		<e:Label id="coinNum" text="100" x="95.55" y="7" textColor="0x5e5c58" fontFamily="Microsoft JhengHei" bold="true"/>
 	</e:Group>
-	<e:Group x="1027.98" y="100.67">
+	<e:Group x="1121.91" y="85.52">
 		<e:Image x="19.75" y="60" source="bullet_png" alpha="0.3" height="60" anchorOffsetX="11" anchorOffsetY="60"/>
 		<e:Image id="bulletMask" x="8.05" y="0.54" source="bullet_png" alpha="0.001" height="60" anchorOffsetX="0" anchorOffsetY="0" rotation="358.13"/>
 		<e:Image id="bulletImg" x="9.09" y="0" source="bullet_png"/>
@@ -247,10 +247,10 @@
 			<e:Image id="rightplayerCommonBulletPos" x="-9.69" y="-302.11" alpha="0.01" source="bullet_png"/>
 		</e:Group>
 	</e:Group>
-	<e:HSlider id="rotationController" x="33.46" y="606" anchorOffsetX="0" anchorOffsetY="0" scaleX="0.7" scaleY="0.7" value="5"/>
-	<e:Image id="plusGun" source="plusbutton_png" x="1095.98" y="411"/>
-	<e:Image id="commonGun" source="button_png" x="932.6" y="520.5"/>
-	<e:Group id="keyduckguids" width="431.82" height="278.79" x="564.76" y="278.395" anchorOffsetX="215.91" anchorOffsetY="139.395">
+	<e:HSlider id="rotationController" x="33.46" y="660" anchorOffsetX="0" anchorOffsetY="0" scaleX="0.7" scaleY="0.7" value="5"/>
+	<e:Image id="plusGun" source="plusbutton_png" x="1144.46" y="386.76"/>
+	<e:Image id="commonGun" source="button_png" x="981.08" y="496.26"/>
+	<e:Group id="keyduckguids" width="431.82" height="278.79" x="595.06" y="296.58" anchorOffsetX="215.91" anchorOffsetY="139.395">
 		<e:Image id="image" width="660" height="240" x="220" y="120" source="promptBox_png" anchorOffsetX="330" anchorOffsetY="120" scaleX="1" scaleY="1"/>
 		<e:Image id="image0" source="text1_png" x="28" y="12" alpha="0"/>
 		<e:Image id="image1" source="text2_png" x="26.65" y="68.4" alpha="0"/>
@@ -262,5 +262,5 @@
 		<e:Image id="image5" source="go_png" x="-318.5" y="44.5" scaleX="1" scaleY="1" anchorOffsetX="96.5" anchorOffsetY="44.5" alpha="0"/>
 		<e:Image width="20" height="20" x="175" y="63"/>
 	</e:Group>
-	<e:Image id="image6" source="gameov_png" x="1466.1" y="209.4" anchorOffsetX="185.5" anchorOffsetY="32"/>
+	<e:Image id="image6" source="gameov_png" x="1535.1" y="209.4" anchorOffsetX="185.5" anchorOffsetY="32"/>
 </e:Skin>
