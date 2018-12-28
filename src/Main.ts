@@ -38,11 +38,11 @@ class Main extends eui.UILayer {
         })
 
         egret.lifecycle.onPause = () => {
-            egret.ticker.pause();
+            // egret.ticker.pause();
         }
 
         egret.lifecycle.onResume = () => {
-            egret.ticker.resume();
+            // egret.ticker.resume();
         }
 
         //inject the custom material parser
